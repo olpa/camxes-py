@@ -17,6 +17,11 @@ def typed_node(node, typ):
     node.node_type = typ
   return node
 
+# Decorate Node initializer and Expression _uncached_match to ensure that
+# Node instances always have a node_type, and Node instances returned by
+# Expression instance uncached matching are assigned a node_type according
+# to the type of the expression that generated them.
+
 Node._orig_init = Node.__init__
 def _typed_node_init(self, expr_name, full_text, start, end, children=None):
   Node._orig_init(self, expr_name, full_text, start, end, children)
