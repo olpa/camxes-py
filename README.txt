@@ -21,6 +21,11 @@ The --serializer (-s) option controls the serialization of the
 transformed parse tree. Currently supported options include: json, json-pretty,
 and json-compact (default)
 
+DEPENDENCIES
+============
+
+camxes-py depends on the "parsimonious" PEG parser library
+
 TESTING
 =======
 
