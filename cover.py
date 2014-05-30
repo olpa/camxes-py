@@ -4,7 +4,7 @@ import json
 
 from camxes import VERSION, configure_platform
 from parsers import camxes_ilmen
-from transformers import expression_coverage
+from transformers import node_coverage
 
 TEST_DIRECTORY  = "test"
 INPUT_FILENAME  = "camxes_ilmen_js.json"
@@ -26,7 +26,7 @@ def read_json(path):
 def process_input(input_json):
   input_specs = input_json["specs"]
   parser = camxes_ilmen.Parser()
-  transformer = expression_coverage.Transformer(parser)
+  transformer = node_coverage.Transformer(parser)
   for spec in input_specs:
     if spec["out"] != "ERROR":
       parsed = parser.parse(spec["txt"])
