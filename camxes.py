@@ -8,10 +8,10 @@ from optparse import OptionParser
 
 import parsimonious_ext # node_types
 
-VERSION = "v0.2"
+VERSION = "v0.3"
 
 PARSERS      = [ 'camxes-ilmen' ]
-FORMATS      = [ 'camxes-json', 'debug' ]
+FORMATS      = [ 'camxes-json', 'node-coverage', 'debug' ]
 SERIALIZERS  = [ 'json', 'json-pretty', 'json-compact' ]
 
 IMPLEMENTATION_RECURSION_LIMIT = {
@@ -86,26 +86,31 @@ def python_version():
 
 def main(text, options):
   parser_option = options.parser if len(PARSERS) > 1 else "camxes-ilmen"
-  parsed = parse(text, parser_option)
-  tranformed = transform(parsed, options.formatter)
-  print serialize(tranformed, options.serializer)
+  parser = build_parser(parser_option)
+  parsed = parser.parse(text)
+  transformer = build_transformer(options.formatter, parser)
+  transformed = transformer.transform(parsed)
+  print serialize(transformed, options.serializer)
 
-def parse(text, parser):
-  if parser == 'camxes-ilmen':
+def build_parser(parser_option):
+  if parser_option == 'camxes-ilmen':
     from parsers import camxes_ilmen
-    return camxes_ilmen.Parser().parse(text)
+    return camxes_ilmen.Parser()
   else:
     bad_parser()
 
-def transform(parsed, transformer):
-  if transformer == 'camxes-json':
+def build_transformer(transformer_option, parser):
+  if transformer_option == 'camxes-json':
     from transformers import camxes_json
-    return camxes_json.Transformer().transform(parsed)
-  elif transformer == 'debug':
+    return camxes_json.Transformer()
+  elif transformer_option == 'node-coverage':
+    from transformers import node_coverage
+    return node_coverage.Transformer(parser)
+  elif transformer_option == 'debug':
     from transformers import debug
-    return debug.Transformer().transform(parsed)
+    return debug.Transformer()
   else:
-    bad_transformer()
+    bad_format()
 
 def serialize(transformed, fmt):
   if fmt == 'json':
