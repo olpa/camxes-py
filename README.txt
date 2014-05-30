@@ -24,13 +24,15 @@ and json-compact (default)
 DEPENDENCIES
 ============
 
-camxes-py depends on the "parsimonious" PEG parser library
+camxes-py depends on the "parsimonious" PEG parser library.
 
 TESTING
 =======
 
-camxes-py is tested with the corpus of test sentences that Robin Lee Powell
-originally assembed to test the first (Java Rats!) camxes implementation.
+camxes-py is tested with the corpus of more than 22K test sentences
+that Robin Lee Powell originally assembled to test the first (Java Rats!)
+camxes implementation.
+
 These sentences have been converted to UTF-8, indexed by MD5/base64 token.
 deduplicated and packaged in "sentences.json" in the "test" directory.
 Each sentence is marked "GOOD" or "BAD" if it was so-commented in the

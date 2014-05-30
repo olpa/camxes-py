@@ -1,8 +1,9 @@
 
-Copyright (c) 2014 Riley Martinez-Lynch, except where otherwise noted
+Copyright (c) 2014 Riley Martinez-Lynch, except where otherwise noted.
 
-The "camxes" PEG parser was first written by Robin Lee Powell and
-Jorge Llambías, and modified by Masato Hagiwara and Ilemen.
+The "camxes" PEG grammar was written by Robin Lee Powell and
+Jorge Llambías, and implemented in JavaScript by Masato Hagiwara,
+with corrections and improvements by Ilmen.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
