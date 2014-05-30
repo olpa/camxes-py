@@ -15,10 +15,10 @@ OPTIONS
 =======
 
 The --formattter (-f) option controls the transformation of the parse tree.
-Currently supported options include: debug and camxes-json (default)
+Supported options include: debug, node-coverage and camxes-json (default)
 
 The --serializer (-s) option controls the serialization of the
-transformed parse tree. Currently supported options include: json, json-pretty,
+transformed parse tree. Supported options include: json, json-pretty,
 and json-compact (default)
 
 DEPENDENCIES
