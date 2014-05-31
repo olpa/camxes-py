@@ -8,7 +8,7 @@ from parsimonious.exceptions import ParseError
 
 from camxes import VERSION, configure_platform
 from parsers import camxes_ilmen
-from transformers import camxes_json
+from transformers import camxes_json, camxes_morphology
 
 ENV = OrderedDict([
   ("engine", "camxes-py"),
@@ -39,29 +39,47 @@ def read_json(path):
 def process_input(input_json):
   input_specs = input_json["specs"]
   parser = camxes_ilmen.Parser()
-  transformer = camxes_json.Transformer()
-  return [ process_spec(spec, parser, transformer) for spec in input_specs ]
+  json_transformer = camxes_json.Transformer()
+  morph_transformer = camxes_morphology.Transformer()
+  return [
+    process_spec(spec, parser, json_transformer, morph_transformer) \
+      for spec in input_specs
+  ]
 
-def process_spec(input_spec, parser, transformer):
+def process_spec(input_spec, parser, json_transformer, morph_transformer):
   output_spec = OrderedDict()
   output_spec["md5"] = input_spec["md5"]
   text = output_spec["txt"] = input_spec["txt"]
 
-  out = None
+  out = morph = None
   try:
-    out = process_text(text, parser, transformer)
+    parsed = parser.parse(text)
+    out = transform_to_serial(parsed, json_transformer)
+    morph = transform_to_serial(parsed, morph_transformer)
   except ParseError as e:
     out = "ERROR"
+    morph = None
   if out != input_spec["out"]:
     print_error(text, input_spec["out"], out)
 
   output_spec["out"] = out
+  if morph:
+    output_spec["morph"] = morph
+
   return output_spec
 
-def process_text(text, parser, transformer):
-  parsed = parser.parse(text)
+def transform_to_serial(parsed, transformer):
+  default_serializer = default_object_serializer(transformer)
   transformed = transformer.transform(parsed)
-  return json.dumps(transformed, separators=(',', ':'))
+  return json.dumps(transformed,
+                    separators=(',', ':'),
+                    default=default_serializer)
+
+def default_object_serializer(transformer):
+  if hasattr(transformer, 'default_serializer'):
+    return transformer.default_serializer()
+  else:
+    return lambda x : x.__dict__
 
 def print_error(text, was, now):
   print "----------------"
