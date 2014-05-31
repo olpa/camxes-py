@@ -8,10 +8,10 @@ from optparse import OptionParser
 
 import parsimonious_ext # node_types
 
-VERSION = "v0.3"
+VERSION = "v0.4"
 
 PARSERS      = [ 'camxes-ilmen' ]
-FORMATS      = [ 'camxes-json', 'node-coverage', 'debug' ]
+TRANSFORMERS = [ 'camxes-json', 'camxes-morphology', 'node-coverage', 'debug' ]
 SERIALIZERS  = [ 'json', 'json-pretty', 'json-compact' ]
 
 IMPLEMENTATION_RECURSION_LIMIT = {
@@ -47,15 +47,15 @@ def bad_parser():
   raise ValueError("Value for parser must be one of: %s" % \
     (", ".join(PARSERS)))
 
-def check_format_option(option, opt_str, value, parser):
-  if value in FORMATS:
+def check_transformer_option(option, opt_str, value, parser):
+  if value in TRANSFORMERS:
     setattr(parser.values, option.dest, value)
   else:
-    bad_format()
+    bad_transformer()
 
-def bad_format():
-  raise ValueError("Value for format must be one of: %s" % \
-    (", ".join(FORMATS)))
+def bad_transformer():
+  raise ValueError("Value for transformer must be one of: %s" % \
+    (", ".join(TRANSFORMERS)))
 
 def check_serializer_option(option, opt_str, value, parser):
   if value in SERIALIZERS:
@@ -88,9 +88,11 @@ def main(text, options):
   parser_option = options.parser if len(PARSERS) > 1 else "camxes-ilmen"
   parser = build_parser(parser_option)
   parsed = parser.parse(text)
-  transformer = build_transformer(options.formatter, parser)
+  transformer = build_transformer(options.transformer, parser)
   transformed = transformer.transform(parsed)
-  print serialize(transformed, options.serializer)
+  print serialize(transformed,
+                  options.serializer,
+                  default_object_serializer(transformer))
 
 def build_parser(parser_option):
   if parser_option == 'camxes-ilmen':
@@ -103,6 +105,9 @@ def build_transformer(transformer_option, parser):
   if transformer_option == 'camxes-json':
     from transformers import camxes_json
     return camxes_json.Transformer()
+  elif transformer_option == 'camxes-morphology':
+    from transformers import camxes_morphology
+    return camxes_morphology.Transformer()
   elif transformer_option == 'node-coverage':
     from transformers import node_coverage
     return node_coverage.Transformer(parser)
@@ -110,15 +115,26 @@ def build_transformer(transformer_option, parser):
     from transformers import debug
     return debug.Transformer()
   else:
-    bad_format()
+    bad_transformer()
 
-def serialize(transformed, fmt):
+def default_object_serializer(transformer):
+  if hasattr(transformer, 'default_serializer'):
+    return transformer.default_serializer()
+  else:
+    return lambda x : x.__dict__
+
+def serialize(transformed, fmt, default_serializer):
   if fmt == 'json':
-    return json.dumps(transformed)
+    return json.dumps(transformed,
+                      default = default_serializer)
   elif fmt == 'json-compact': # a.k.a. JSON.stringify()
-    return json.dumps(transformed, separators=(',', ':'))
+    return json.dumps(transformed,
+                      separators = (',', ':'),
+                      default = default_serializer)
   elif fmt == 'json-pretty':
-    return json.dumps(transformed, indent=4)
+    return json.dumps(transformed,
+                      indent = 4,
+                      default = default_serializer)
   else:
     bad_serializer()
 
@@ -135,12 +151,12 @@ if __name__ == '__main__':
                        dest="parser", default="camxes-ilmen",
                        callback=check_parser_option)
 
-  options.add_option("-f", "--formatter",
-                     help=("options: %s" % (", ".join(FORMATS))) + \
+  options.add_option("-t", "--transformer",
+                     help=("options: %s" % (", ".join(TRANSFORMERS))) + \
                        " [default: %default]",
                      type="string", action="callback",
-                     dest="formatter", default="camxes-json",
-                     callback=check_format_option)
+                     dest="transformer", default="camxes-json",
+                     callback=check_transformer_option)
 
   options.add_option("-s", "--serializer",
                      help=("options: %s" % (", ".join(SERIALIZERS))) + \
