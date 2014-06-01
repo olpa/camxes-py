@@ -22,10 +22,16 @@ The --serializer (-s) option controls the serialization of the
 transformed parse tree. Supported options include: json, json-pretty,
 and json-compact (default)
 
+The --rule (-r) option is used to specify the starting rule or expression
+used to parsed the text. By default, the first rule of the grammar is
+used. To parse potentially non-grammatical texts into cmevla, brivla, cmavo
+and non-lojban words, specify the "morphology" rule.
+
 DEPENDENCIES
 ============
 
-camxes-py depends on the "parsimonious" PEG parser library.
+camxes-py depends on the "parsimonious" PEG parser library, and has been
+tested under CPython 2.7.4 and PyPy 2.2.1.
 
 TESTING
 =======

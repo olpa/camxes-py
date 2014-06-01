@@ -85,8 +85,7 @@ def python_version():
   return (major * 10) + minor
 
 def main(text, options):
-  parser_option = options.parser if len(PARSERS) > 1 else "camxes-ilmen"
-  parser = build_parser(parser_option)
+  parser = build_parser(options)
   parsed = parser.parse(text)
   transformer = build_transformer(options.transformer, parser)
   transformed = transformer.transform(parsed)
@@ -94,10 +93,11 @@ def main(text, options):
                   options.serializer,
                   default_object_serializer(transformer))
 
-def build_parser(parser_option):
+def build_parser(options):
+  parser_option = options.parser if len(PARSERS) > 1 else "camxes-ilmen"
   if parser_option == 'camxes-ilmen':
     from parsers import camxes_ilmen
-    return camxes_ilmen.Parser()
+    return camxes_ilmen.Parser(options.rule)
   else:
     bad_parser()
 
@@ -164,6 +164,10 @@ if __name__ == '__main__':
                      type="string", action="callback",
                      dest="serializer", default="json-compact",
                      callback=check_serializer_option)
+
+  options.add_option("-r", "--rule",
+                     type="string", action="store",
+                     dest="rule")
 
   (params, argv) = options.parse_args()
   text = " ".join(argv)

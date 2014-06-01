@@ -105,7 +105,7 @@ class Visitor(NodeVisitor):
   def visit_fuhivla(self, node, visited_children):
     return Fuhivla(lerpoi(visited_children))
 
-  # handle by selmaho in generic_visit
+  # handle by selmaho in generic_visit()
   def visit_CMAVO(self, node, visited_children):
     return flatten(visited_children)
 
@@ -118,6 +118,9 @@ class Visitor(NodeVisitor):
     return value
 
   def visit_zoi_word(self, node, visited_children):
+    return Naljbo(lerpoi(visited_children))
+
+  def visit_non_lojban_word(self, node, visited_children):
     return Naljbo(lerpoi(visited_children))
 
   def generic_visit(self, node, visited_children):

@@ -9,9 +9,9 @@ GRAMMAR_FILENAME = "camxes_ilmen.peg"
 
 ZOI_DELIMITER_KEY = "zoi_delimiter"
 
-def read_grammar(path):
+def build_grammar(path, rule):
   f = open(path)
-  grammar = Grammar(f.read())
+  grammar = Grammar(f.read(), rule)
   f.close()
   return grammar
 
@@ -55,10 +55,10 @@ class ZoiDelimiterPredicate(LookaheadPredicate):
 
 class Parser:
 
-  def __init__(self, path=None):
+  def __init__(self, rule=None, path=None):
     if not path:
       path = _default_grammar_path()
-    self.grammar = read_grammar(path)
+    self.grammar = build_grammar(path, rule)
     self._enhance_grammar()
 
   def _enhance_grammar(self):

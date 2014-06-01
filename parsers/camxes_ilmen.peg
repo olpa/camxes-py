@@ -1307,6 +1307,14 @@ ZOhU_post = ( post_clause )
 
 # ___ MORPHOLOGY ___
 
+morphology = (
+  initial_spaces?
+  (
+    ( CMAVO / BRIVLA / CMEVLA / non_lojban_word )
+    spaces ?
+  )*
+)
+
 CMEVLA = ( &cmevla cmevla )
 
 BRIVLA = ( gismu_2 / lujvo / fuhivla )
