@@ -1,74 +1,14 @@
 
 import re
 
-from collections import OrderedDict
 from compiler.ast import flatten
 
 from parsimonious.nodes import NodeVisitor
 
 from parsimonious_ext.node_types import LITERAL, REGEX
 
-# Glossary
-#
-# genturfa'i : parser ("grammar-structure discoverer")
-# gensu'a    : grammar-structure
-# genturtai  : grammar-structure form
-#              (e.g. cmevla, gismu, lujvo, fuhivla, cmavo
-# terge'a    : grammatical-text
-# tergentai  : grammatical-text form
-#              (e.g. valsi, jufra)
-# lerpoi     : character sequence
-
-class Gensuha:
-
-  GENTURTAI = "naltarmi"
-
-  def __init__(self, lerpoi):
-    self.lerpoi = lerpoi
-
-  def as_json(self):
-    return OrderedDict([
-      ( "genturtai", self.GENTURTAI ),
-      ( "lerpoi",    self.lerpoi    )
-    ])
-
-class Cmavo(Gensuha):
-
-  GENTURTAI = "cmavo"
-
-  def __init__(self, lerpoi, selmaho):
-    self.lerpoi = lerpoi
-    self.selmaho = selmaho
-
-  def as_json(self):
-    return OrderedDict([
-      ( "genturtai", self.GENTURTAI ),
-      ( "selmaho",   self.selmaho   ),
-      ( "lerpoi",    self.lerpoi    )
-    ])
-
-class Cmevla(Gensuha):
-
-  GENTURTAI = "cmevla"
-
-class Brivla(Gensuha):
-  pass
-
-class Gismu(Brivla):
-
-  GENTURTAI = "gismu"
-
-class Lujvo(Brivla):
-
-  GENTURTAI = "lujvo"
-
-class Fuhivla(Brivla):
-
-  GENTURTAI = "fuhivla"
-
-class Naljbo(Gensuha):
-
-  GENTURTAI = "naljbo"
+from structures.gensuha \
+  import Gensuha, Cmevla, Gismu, Lujvo, Fuhivla, Cmavo, Naljbo
 
 # flatten and join textual nodes
 def lerpoi(children):
