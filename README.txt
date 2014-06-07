@@ -7,25 +7,36 @@ by Ilmen.
 USAGE
 =====
 
-To generate a transformed parse tree:
+By default, input is parsed and transformed for compatibility with the ilmentufa
+implementation of camxes.js:
 
-  python camxes.py "coi munje"
+    python camxes.py "coi munje"
+
+To parse potentially non-grammatical texts into cmevla, brivla, cmavo and
+non-lojban words, specify the "camxes-morphology" transformation and the
+"morphology" starting expression:
+
+    python camxes.py -t camxes-morphology "coi munje"
+
+To parse using jbovlaste's categories, which add bu-letteral, zei-lujvo, and
+cmavo-compound to the standard morphological ones, use the "vlatai" rule
+transformation:
+
+    python camxes.py -t vlatai -r vlatai "coi munje"
 
 OPTIONS
 =======
 
 The --transformer (-t) option controls the transformation of the parse tree.
-Supported options include: debug, node-coverage, camxes-morphology, and
+Supported options include: debug, node-coverage, camxes-morphology, vlatai, and
 camxes-json (default)
 
-The --serializer (-s) option controls the serialization of the
-transformed parse tree. Supported options include: json, json-pretty,
-and json-compact (default)
+The --serializer (-s) option controls the serialization of the transformed
+parse tree. Supported options include: json, json-pretty, and
+json-compact (default)
 
-The --rule (-r) option is used to specify the starting rule or expression
-used to parsed the text. By default, the first rule of the grammar is
-used. To parse potentially non-grammatical texts into cmevla, brivla, cmavo
-and non-lojban words, specify the "morphology" rule.
+The --rule (-r) option is used to specify the starting rule or expression used
+to parsed the text. By default, the first rule of the grammar ("text") is used.
 
 DEPENDENCIES
 ============

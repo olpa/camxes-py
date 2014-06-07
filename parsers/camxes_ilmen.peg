@@ -1311,7 +1311,7 @@ morphology = (
   initial_spaces?
   (
     ( CMAVO / BRIVLA / CMEVLA / non_lojban_word )
-    spaces ?
+    spaces?
   )*
 )
 
@@ -1344,6 +1344,50 @@ CMAVO = (
   / ZAhO / ZEhA / ZEI / ZI / ZIhE / ZO / ZOI / ZOhU
   / cmavo
 )
+
+# ___ VLATAI ___
+
+vlatai = (
+  vlatai_spaces?
+  (
+    BU
+    / ZEI
+    / vlatai_bu_clause
+    / vlatai_zei_clause
+    / ( non_bu_zei_cmavo+ )
+    / BRIVLA
+    / CMEVLA
+  )
+  vlatai_spaces?
+)
+
+# don't treat Y as a space in vlatai
+vlatai_spaces = ( ( ( ( comma* space_char ) )+ EOF? ) / EOF )
+
+vlatai_bu_clause  = ( vlatai_pre_zei_bu ( vlatai_bu_tail? vlatai_zei_tail )* vlatai_bu_tail )
+vlatai_zei_clause = ( vlatai_pre_zei_bu ( vlatai_zei_tail? vlatai_bu_tail )* vlatai_zei_tail )
+
+vlatai_bu_tail    = ( vlatai_BU_clause+ )
+vlatai_zei_tail   = ( vlatai_ZEI_clause vlatai_any_word )+
+
+vlatai_BU_clause  = ( BU vlatai_spaces? )
+vlatai_ZEI_clause = ( ZEI vlatai_spaces? )
+
+vlatai_pre_zei_bu = (
+  !BU
+  !ZEI
+  !SI
+  !SA
+  !SU
+  !FAhO
+  vlatai_any_word
+)
+
+vlatai_any_word = ( lojban_word vlatai_spaces? )
+
+non_bu_zei_cmavo = ( !BU !ZEI cmavo_including_y vlatai_spaces? )
+
+cmavo_including_y = ( CMAVO / Y )
 
 # ___ GRAMMAR ___
 

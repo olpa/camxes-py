@@ -89,3 +89,27 @@ class Cmavo(Valsi):
       ( "lerpoi",    self.lerpoi    )
     ])
 
+class Vlapoi(Gensuha):
+
+  GENTURTAI = "vlapoi"
+
+  def __init__(self, vlapoi):
+    self.vlapoi = vlapoi
+
+  def as_json(self):
+    return OrderedDict([
+      ( "genturtai", self.GENTURTAI ),
+      ( "vlapoi",    self.vlapoi    )
+    ])
+
+class ZeiLujvo(Vlapoi, Jvodunlei):
+
+  GENTURTAI = "zei-lujvo"
+
+class Lerdunlei: # not a structure
+  pass
+
+class BuLetteral(Vlapoi, Lerdunlei):
+
+  GENTURTAI = "bu-letteral"
+
