@@ -1,4 +1,6 @@
 
+import json
+
 import dispatcher
 import factory_naming
 
@@ -11,7 +13,6 @@ ERROR_MESSAGE = ".u'u mi na pu genturfa'i"
 class Dispatcher(dispatcher.BaseDispatcher):
 
   def __init__(self, client):
-    #super(Dispatcher, self).__init__(client)
     self.client = client
     self.parser = camxes_ilmen.Parser()
     self.transformer = camxes_morphology.Transformer()
@@ -26,7 +27,7 @@ class Dispatcher(dispatcher.BaseDispatcher):
       transformed = self._transform(text)
       response = self._serialize(transformed)
     except Exception, e:
-      response = self._error_response(text, transformed, e)
+      response = self._error_response(text, e)
     return response
 
   def _transform(self, text):
@@ -37,10 +38,10 @@ class Dispatcher(dispatcher.BaseDispatcher):
     default_serializer = self.transformer.default_serializer()
     return json.dumps(transformed, default = default_serializer)
 
-  def _error_response(self, text, transformed, e):
+  def _error_response(self, text, e):
     return ERROR_MESSAGE
 
-  def _msg(target, text):
+  def _msg(self, target, text):
     self.client.msg(target, text)
 
 # NOTE: factory_naming.Mixin must be first

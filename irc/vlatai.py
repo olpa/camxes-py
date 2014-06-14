@@ -1,6 +1,4 @@
 
-from twisted.python import log
-
 import dispatcher
 import factory_naming
 
@@ -8,8 +6,6 @@ from structures import jbovlaste_types
 from parsers import camxes_ilmen
 from transformers import vlatai
 from protocol import DispatchableIrcClient
-
-from structures.gensuha import Cmavo
 
 class Dispatcher(dispatcher.BaseDispatcher):
 

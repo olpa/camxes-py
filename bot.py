@@ -8,18 +8,29 @@ from twisted.python import log
 
 from camxes import VERSION
 from irc.protocol_factory import IrcClientFactory
-from irc.vlatai import Protocol
 
 DEFAULT_HOST     = "irc.freenode.net"
 DEFAULT_PORT     = 6667
 DEFAULT_CHANNELS = [ "#lojban" ]
 DEFAULT_NICKNAME = "vlatai"
+DEFAULT_DISPATCH = "vlatai"
 
 def main(options):
-  factory = IrcClientFactory(Protocol, options)
+  protocol = _dispatch_protocol(options.dispatch)
+  factory = IrcClientFactory(protocol, options)
   log.startLogging(sys.stdout)
   reactor.connectTCP(options.host, options.port, factory)
   reactor.run()
+
+def _dispatch_protocol(dispatch):
+  if dispatch == "vlatai":
+    from irc.vlatai import Protocol
+    return Protocol
+  elif dispatch == "morphology":
+    from irc.morphology import Protocol
+    return Protocol
+  else:
+    raise ValueError("Unknown dispatch: '%s'" % dispatch)
 
 if __name__ == '__main__':
 
@@ -37,6 +48,9 @@ if __name__ == '__main__':
 
   args.add_argument("-n", "--name",
                     dest="name", default=DEFAULT_NICKNAME)
+
+  args.add_argument("-d", "--dispatch",
+                    dest="dispatch", default=DEFAULT_DISPATCH)
 
   args.add_argument("-v", "--version",
                     action="version", version=VERSION)
