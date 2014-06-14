@@ -42,7 +42,8 @@ DEPENDENCIES
 ============
 
 camxes-py depends on the "parsimonious" PEG parser library, and has been
-tested under CPython 2.7.4 and PyPy 2.2.1.
+tested under CPython 2.7.4 and PyPy 2.2.1. To run the IRC bot, the "twisted"
+library is also required.
 
 TESTING
 =======

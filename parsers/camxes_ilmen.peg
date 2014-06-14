@@ -2,8 +2,8 @@
 # This is a Parsing Expression Grammar for Lojban.
 
 # This version is based on ilmentufa/camxes.js.peg, which extends camxes.js
-# with suppport for ZOI quotation and elided terminator detection, and fixes
-# a number of other issues.
+# with suppport for ZOI quotation, sumti tcita, and elided terminator detection,
+# as well as fixing a number of other issues.
 
 # In order to be used with the parsimonious PEG parsing library, several
 # changes to the PEG grammar were required:
