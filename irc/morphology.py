@@ -14,7 +14,7 @@ class Dispatcher(dispatcher.BaseDispatcher):
 
   def __init__(self, client):
     self.client = client
-    self.parser = camxes_ilmen.Parser()
+    self.parser = camxes_ilmen.Parser('morphology')
     self.transformer = camxes_morphology.Transformer()
 
   def dispatch_command(self, nick, target, query):
