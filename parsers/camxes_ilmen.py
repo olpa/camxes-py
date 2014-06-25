@@ -96,3 +96,6 @@ class Parser:
   def parse(self, text):
     return self.grammar.parse(text)
 
+  def match(self, text, pos=0):
+    return self.grammar.match(text, pos)
+
