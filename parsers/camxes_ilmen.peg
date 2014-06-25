@@ -1384,11 +1384,13 @@ vlatai_pre_zei_bu = (
   vlatai_any_word
 )
 
-vlatai_any_word = ( lojban_word vlatai_spaces? )
+vlatai_any_word = ( vlatai_lojban_word vlatai_spaces? )
+
+vlatai_lojban_word = ( CMEVLA / cmavo_including_y / BRIVLA )
 
 non_bu_zei_cmavo = ( !BU !ZEI cmavo_including_y vlatai_spaces? )
 
-cmavo_including_y = ( CMAVO / Y )
+cmavo_including_y = ( Y / CMAVO )
 
 # ___ GRAMMAR ___
 
