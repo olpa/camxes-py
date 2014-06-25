@@ -165,8 +165,9 @@ bridi_tail_2 = (
 
 bridi_tail_3 = ( ( selbri tail_terms ) / gek_sentence )
 
+# updated in ilmentufa/camxes.js d2ea58b0
 gek_sentence = (
-  ( tag* gek subsentence gik subsentence tail_terms )
+  ( gek subsentence gik subsentence tail_terms )
   / ( tag* KE_clause free* gek_sentence KEhE_elidible free* )
   / ( NA_clause free* gek_sentence )
 )
