@@ -1,14 +1,13 @@
 
-camxes-py is a pure python implementation of the lojban "camxes" PEG parser,
-originally implemented by Robin Lee Powell and Jorge Llambías using Java
-Rats! and ported to JavaScript by Masato Hagiwara, with additional improvements
-by Ilmen.
+camxes-py is a pure Python implementation of the lojban "camxes" PEG parser.
+From v0.6, camxes-py uses updated, v119 camxes morphology. Earlier version
+used v108 morphology.
 
 USAGE
 =====
 
-By default, input is parsed and transformed for compatibility with the ilmentufa
-implementation of camxes.js:
+By default, input is parsed and transformed to the output format used by the
+ilmentufa implementation of camxes.js:
 
     python camxes.py "coi munje"
 
@@ -22,7 +21,7 @@ To parse using jbovlaste's categories, which add bu-letteral, zei-lujvo, and
 cmavo-compound to the standard morphological ones, use the "vlatai" rule
 transformation:
 
-    python camxes.py -t vlatai -r vlatai "coi munje"
+    python camxes.py -t vlatai -r vlatai "coi zei munje bu"
 
 OPTIONS
 =======
@@ -68,4 +67,16 @@ LICENSE
 
 The scripts and modules in this implementation may be copied, modified,
 and distributed under the terms of the accompanied license, "LICENSE.txt".
+
+ACKNOWLEDGMENTS
+===============
+
+camxes-py draws on prior implementations of the "camxes" PEG parser, including
+the original Java Rats! implementation by Robin Lee Powell and Jorge Llambías,
+the JavaScript port (camxes.js) by Masato Hagiwara. It owes an immediate debt
+to the "ilmentufa" parser by Ilmen, which extended camxes.js with suppport for
+ZOI quotation, sumti tcita, and elided terminator detection.
+
+The camxes-py IRC bot is based loosely on the "valsi" and "gerna" bots written
+by Dag Odenhall for "vlasisku".
 

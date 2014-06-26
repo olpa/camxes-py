@@ -1318,10 +1318,6 @@ morphology = (
 
 CMEVLA = ( &cmevla cmevla )
 
-BRIVLA = ( gismu_2 / lujvo / fuhivla )
-
-gismu_2 = ( &gismu gismu )
-
 CMAVO = (
   A
   / BAI / BAhE / BE / BEI / BEhO / BIhE / BIhI / BO / BOI / BU / BY
@@ -1396,6 +1392,10 @@ cmavo_including_y = ( Y / CMAVO )
 
 lojban_word = ( CMEVLA / CMAVO / BRIVLA )
 
+BRIVLA = ( gismu_2 / fuhivla / lujvo )
+
+gismu_2 = ( &gismu gismu )
+
 any_word = ( lojban_word spaces? )
 
 zoi_open = ( &lojban_word lojban_word )
@@ -1404,9 +1404,11 @@ zoi_close = ( &lojban_word lojban_word )
 
 # ____
 
-cmevla = ( !h &consonant_final coda? ( any_syllable / digit )* &pause )
+cmevla = ( jbocme / zifcme )
 
-consonant_final = ( ( non_space &non_space )* consonant &pause )
+zifcme = ( !h ( nucleus / glide / h / ( consonant !pause ) / digit )* consonant &pause )
+
+jbocme = ( &zifcme ( any_syllable / digit )* &pause )
 
 # ____
 
@@ -1430,7 +1432,7 @@ cmavo_form = (
 
 # ____
 
-brivla = ( !cmavo initial_rafsi* brivla_core )
+lujvo = ( !gismu !fuhivla !cmavo initial_rafsi* brivla_core )
 
 brivla_core = (
   fuhivla
@@ -1451,9 +1453,9 @@ initial_rafsi = (
   / ( !any_extended_rafsi y_less_rafsi )
 )
 
-# ____
-
 any_extended_rafsi = ( fuhivla / extended_rafsi / stressed_extended_rafsi )
+
+# ____
 
 fuhivla = (
   fuhivla_head
@@ -1507,8 +1509,10 @@ rafsi_string = (
 # ____
 
 gismu = (
-  stressed_long_rafsi
+  ( ( initial_pair stressed_vowel )
+    / ( consonant stressed_vowel consonant ) )
   &final_syllable
+  consonant
   vowel
   &post_word
 )
@@ -1536,7 +1540,10 @@ stressed_y_less_rafsi = (
   / stressed_CVV_rafsi
 )
 
-stressed_long_rafsi = ( ( stressed_CCV_rafsi / stressed_CVC_rafsi ) consonant )
+stressed_long_rafsi = (
+  ( initial_pair stressed_vowel consonant )
+  / ( consonant stressed_vowel consonant consonant )
+)
 
 stressed_CVC_rafsi = ( consonant stressed_vowel consonant )
 
@@ -1556,7 +1563,10 @@ y_less_rafsi = (
   !any_extended_rafsi
 )
 
-long_rafsi = ( ( CCV_rafsi / CVC_rafsi ) consonant )
+long_rafsi = (
+  ( initial_pair unstressed_vowel consonant )
+  / (consonant unstressed_vowel consonant consonant )
+)
 
 CVC_rafsi = ( consonant unstressed_vowel consonant )
 
@@ -1714,8 +1724,6 @@ spaces = ( !Y initial_spaces )
 initial_spaces = ( ( ( ( comma* space_char ) / ( !ybu Y ) )+ EOF?) / EOF )
 
 ybu = ( Y space_char* BU )
-
-lujvo = ( !gismu !fuhivla brivla )
 
 # ____
 

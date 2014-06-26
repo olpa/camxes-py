@@ -1116,9 +1116,6 @@ class Visitor(NodeVisitor):
   def visit_cmevla(self, node, visited_children):
     return join_named(node, visited_children)
 
-  def visit_consonant_final(self, node, visited_children):
-    return join(node, visited_children)
-
   # ____
 
   def visit_cmavo(self, node, visited_children):
