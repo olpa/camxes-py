@@ -2,7 +2,7 @@
 from compiler.ast import flatten
 
 from transformers import camxes_morphology
-from structures.gensuha import BuLetteral, ZeiLujvo
+from structures.gensuha import BuLetteral, ZeiLujvo, Tosmabru
 
 class Transformer:
 
@@ -16,6 +16,9 @@ class Visitor(camxes_morphology.Visitor):
 
   def visit_vlatai(self, node, visited_children):
     return visited_children[1]
+
+  def visit_tosmabru(self, node, visited_children):
+    return Tosmabru(flatten(visited_children))
 
   def visit_vlatai_bu_clause(self, node, visited_children):
     return BuLetteral(flatten(visited_children))
