@@ -16,7 +16,7 @@ BU_LETTERAL    = "bu-letteral"
 ZEI_LUJVO      = "zei-lujvo"
 
 # non-jvs type
-TOSMABRU       = "tosmabru"
+TOSMABRU       = "valrtosmabru"
 
 def classify(gensuha):
   if gensuha is None or len(gensuha) < 1:
