@@ -117,3 +117,7 @@ class Tosmabru(Vlapoi):
 
   GENTURTAI = "tosmabru"
 
+class Slinkuhi(Vlapoi):
+
+  GENTURTAI = "slinku'i"
+

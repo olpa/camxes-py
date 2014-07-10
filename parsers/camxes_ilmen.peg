@@ -1351,7 +1351,7 @@ vlatai = (
     / ZEI
     / vlatai_bu_clause
     / vlatai_zei_clause
-    / tosmabru
+    / tosmabru / slinkuhi
     / ( non_bu_zei_cmavo+ )
     / BRIVLA
     / CMEVLA
