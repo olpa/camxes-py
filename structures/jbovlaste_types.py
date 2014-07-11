@@ -1,6 +1,6 @@
 
 from structures.gensuha \
-  import Cmevla, Gismu, Lujvo, Fuhivla, Cmavo, ZeiLujvo, BuLetteral
+  import Cmevla, Gismu, Lujvo, Fuhivla, Cmavo, ZeiLujvo, BuLetteral, Tosmabru, Slinkuhi
 
 # legacy classifications
 CMENE         = "cmene"
@@ -14,6 +14,10 @@ NALVLA        = "nalvla"
 CMAVO_COMPOUND = "cmavo-compound"
 BU_LETTERAL    = "bu-letteral"
 ZEI_LUJVO      = "zei-lujvo"
+
+# non-jvs types
+TOSMABRU       = "valrtosmabru"
+SLINKUHI       = "valslinku'i"
 
 def classify(gensuha):
   if gensuha is None or len(gensuha) < 1:
@@ -38,6 +42,10 @@ def classify_gensuha(gensuha):
     return ZEI_LUJVO
   elif isinstance(gensuha, BuLetteral):
     return BU_LETTERAL
+  elif isinstance(gensuha, Tosmabru):
+    return TOSMABRU
+  elif isinstance(gensuha, Slinkuhi):
+    return SLINKUHI
   else:
     return NALVLA
 

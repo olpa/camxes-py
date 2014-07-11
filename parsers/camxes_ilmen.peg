@@ -1351,6 +1351,7 @@ vlatai = (
     / ZEI
     / vlatai_bu_clause
     / vlatai_zei_clause
+    / tosmabru / slinkuhi
     / ( non_bu_zei_cmavo+ )
     / BRIVLA
     / CMEVLA
@@ -1387,6 +1388,8 @@ vlatai_lojban_word = ( CMEVLA / cmavo_including_y / BRIVLA )
 non_bu_zei_cmavo = ( !BU !ZEI cmavo_including_y vlatai_spaces? )
 
 cmavo_including_y = ( Y / CMAVO )
+
+tosmabru = cmavo+ ( gismu / lujvo / fuhivla )
 
 # ___ GRAMMAR ___
 
