@@ -3,7 +3,7 @@ from structures.gensuha \
   import Cmevla, Gismu, Lujvo, Fuhivla, Cmavo, ZeiLujvo, BuLetteral, Tosmabru, Slinkuhi
 
 # legacy classifications
-CMENE         = "cmene"
+CMEVLA        = "cmevla"
 GISMU         = "gismu"
 LUJVO         = "lujvo"
 FUHIVLA       = "fu'ivla"
@@ -29,7 +29,7 @@ def classify(gensuha):
 
 def classify_gensuha(gensuha):
   if isinstance(gensuha, Cmevla):
-    return CMENE
+    return CMEVLA
   elif isinstance(gensuha, Gismu):
     return GISMU
   elif isinstance(gensuha, Lujvo):
