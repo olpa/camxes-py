@@ -3,15 +3,28 @@ import os
 
 from parsimonious.grammar import Grammar
 
+from parsimonious_ext.version import PARSIMONIOUS_VERSION
 from parsimonious_ext.expressions import Predicate, LookaheadPredicate
 
 GRAMMAR_FILENAME = "camxes_ilmen.peg"
 
 ZOI_DELIMITER_KEY = "zoi_delimiter"
 
-def build_grammar(path, rule):
+def build_grammar(path, default_rule):
+  if PARSIMONIOUS_VERSION > 0.5:
+    return build_grammar_06(path)
+  else:
+    return build_grammar_05(path, default_rule)
+
+def build_grammar_05(path, default_rule):
   f = open(path)
-  grammar = Grammar(f.read(), rule)
+  grammar = Grammar(f.read(), default_rule)
+  f.close()
+  return grammar
+
+def build_grammar_06(path):
+  f = open(path)
+  grammar = Grammar(f.read())
   f.close()
   return grammar
 
@@ -55,13 +68,25 @@ class ZoiDelimiterPredicate(LookaheadPredicate):
 
 class Parser:
 
-  def __init__(self, rule=None, path=None):
+  def __init__(self, default_rule=None, path=None):
     if not path:
       path = _default_grammar_path()
-    self.grammar = build_grammar(path, rule)
-    self._enhance_grammar()
+    self.grammar = build_grammar(path, default_rule)
+    self._enhance_grammar(default_rule)
 
-  def _enhance_grammar(self):
+  def _enhance_grammar(self, default_rule):
+    if (default_rule is not None) and (PARSIMONIOUS_VERSION > 0.5):
+      self._apply_default_rule(default_rule)
+    self._add_zoi_quotation_handling()
+
+  def _apply_default_rule(self, rule_name):
+    try:
+      rule = self.grammar[rule_name]
+    except KeyError:
+      raise ValueError("'%s' is not a rule" % rule_name)
+    self.grammar.default_rule = rule
+
+  def _add_zoi_quotation_handling(self):
     quotation_state = {}
     self._enhance_zoi_open(quotation_state)
     self._enhance_zoi_word(quotation_state)
