@@ -67,6 +67,9 @@ def node_simple(node, visited_children, name=None):
 def _node_simple(node_name, children):
   return [ node_name, children ]
 
+def _node_name(node):
+  return node.expr_name
+
 def node_simple_alias(node, visited_children, name=None):
   node_name = name or node.expr_name
   child = _look_past(visited_children)
@@ -87,6 +90,10 @@ def _join_named(node_name, children):
 def join_indexed(node, visited_children, i):
   children = _children(node, visited_children)
   return [ node.expr_name, _join(children[i]) ]
+
+def join_indexed_children(node, visited_children, i):
+  children = _children(node, visited_children)
+  return _join(children[i])
 
 def join(node, visited_children):
   children = _children(node, visited_children)
@@ -1417,7 +1424,7 @@ class Visitor(NodeVisitor):
     return join(node, visited_children)
 
   def visit_ybu(self, node, visited_children):
-    return join(node, visited_children)
+    return _node_name(node)
 
   def visit_lujvo(self, node, visited_children):
     return join_named(node, visited_children)
@@ -1459,10 +1466,7 @@ class Visitor(NodeVisitor):
 
   def visit_BY(self, node, visited_children):
     children = _children(node, visited_children)
-    if isinstance(children, basestring):
-      return children
-    else:
-      return _join_named(node.expr_name, children[1]) # skip lookahead
+    return _join_named(node.expr_name, children[1]) # skip lookahead
 
   def visit_CAhA(self, node, visited_children):
     return join_indexed(node, visited_children, 1)
@@ -1771,7 +1775,7 @@ class Visitor(NodeVisitor):
     return join_indexed(node, visited_children, 1)
 
   def visit_Y(self, node, visited_children):
-    return join_indexed(node, visited_children, 1)
+    return join_indexed_children(node, visited_children, 1)
 
   def visit_ZAhO(self, node, visited_children):
     return join_indexed(node, visited_children, 1)

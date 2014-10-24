@@ -66,15 +66,10 @@ statement = ( statement_1 / ( prenex statement ) )
 
 statement_1 = ( statement_2 ( I_clause joik_jek statement_2? )* )
 
+# updated in ilmentufa/camxes.js 0ebbb71
 statement_2 = (
-  (
     statement_3
-    ( I_clause ( jek / joik )? stag? BO_clause free* statement_2 )?
-  )
-  / (
-    statement_3
-    ( I_clause ( jek / joik )? stag? BO_clause free* )?
-  )
+    ( I_clause ( jek / joik )? stag? BO_clause free* statement_2? )?
 )
 
 statement_3 = (
@@ -639,15 +634,12 @@ space = (
 
 space_offset = ( FAhA_clause NAI_clause? VA_clause? )
 
+# updated in ilmentufa/camxes.js f1156b90
 space_interval = (
   (
-    ( VEhA_clause / VIhA_clause / ( VEhA_clause VIhA_clause ) )
+    ( ( VEhA_clause VIhA_clause? ) / VIhA_clause )
     ( FAhA_clause NAI_clause? )?
-    space_int_props
-  )
-  / (
-    ( VEhA_clause / VIhA_clause / ( VEhA_clause VIhA_clause ) )
-    ( FAhA_clause NAI_clause? )?
+    space_int_props?
   )
   / space_int_props
 )
@@ -1823,41 +1815,40 @@ BOI = ( &cmavo (b o i) &post_word )
 
 BU = ( &cmavo (b u) &post_word )
 
+# updated in ilmentufa/camxes.js 8ead471
 BY = (
-  ybu
-  / (
-    &cmavo
-    (
-      (j o h o)
-      / (r u h o)
-      / (g e h o)
-      / (j e h o)
-      / (l o h a)
-      / (n a h a)
-      / (s e h e)
-      / (t o h a)
-      / (g a h e)
-      / (y h y)
-      / (b y)
-      / (c y)
-      / (d y)
-      / (f y)
-      / (g y)
-      / (j y)
-      / (k y)
-      / (l y)
-      / (m y)
-      / (n y)
-      / (p y)
-      / (r y)
-      / (s y)
-      / (t y)
-      / (v y)
-      / (x y)
-      / (z y)
-    )
-    &post_word
+  &cmavo
+  (
+    ybu
+    / (j o h o)
+    / (r u h o)
+    / (g e h o)
+    / (j e h o)
+    / (l o h a)
+    / (n a h a)
+    / (s e h e)
+    / (t o h a)
+    / (g a h e)
+    / (y h y)
+    / (b y)
+    / (c y)
+    / (d y)
+    / (f y)
+    / (g y)
+    / (j y)
+    / (k y)
+    / (l y)
+    / (m y)
+    / (n y)
+    / (p y)
+    / (r y)
+    / (s y)
+    / (t y)
+    / (v y)
+    / (x y)
+    / (z y)
   )
+  &post_word
 )
 
 CAhA = ( &cmavo ( (c a h a) / (p u h i) / (n u h o) / (k a h e) ) &post_word )
