@@ -14,6 +14,14 @@ LOOKAHEAD_PREDICATE = "LOOKAHEAD_PREDICATE"
 
 class Predicate(Compound):
 
+  def match_core(self, text, pos, cache, error):
+    node = self.members[0].match_core(text, pos, cache, error)
+    if node is not None and self.evaluate(node):
+      return node
+    else:
+      return None
+
+  # (for parsimonious < v0.6)
   def _match(self, text, pos, cache, error):
     node = self.members[0]._match(text, pos, cache, error)
     if node is not None and self.evaluate(node):
@@ -29,6 +37,16 @@ class Predicate(Compound):
 
 class LookaheadPredicate(Compound):
 
+  def match_core(self, text, pos, cache, error):
+    node = self.members[0].match_core(text, pos, cache, error)
+    if node is not None and self.evaluate(node):
+      out = Node(self.name, text, pos, pos) # like lookahead
+      out.node_type = LOOKAHEAD_PREDICATE
+      return out
+    else:
+      return None
+
+  # (for parsimonious < v0.6)
   def _match(self, text, pos, cache, error):
     node = self.members[0]._match(text, pos, cache, error)
     if node is not None and self.evaluate(node):
