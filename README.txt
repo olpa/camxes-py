@@ -1,6 +1,6 @@
 
 camxes-py is a pure Python implementation of the lojban "camxes" PEG parser.
-From v0.6, camxes-py uses updated, v119 camxes morphology. Earlier version
+From v0.6, camxes-py uses updated, v119 camxes morphology. Earlier versions
 used v108 morphology.
 
 USAGE
@@ -74,8 +74,9 @@ ACKNOWLEDGMENTS
 camxes-py draws on prior implementations of the "camxes" PEG parser, including
 the original Java Rats! implementation by Robin Lee Powell and Jorge Llambías,
 the JavaScript port (camxes.js) by Masato Hagiwara. It owes an immediate debt
-to the "ilmentufa" parser by Ilmen, which extended camxes.js with suppport for
-ZOI quotation, sumti tcita, and elided terminator detection.
+to the "ilmentufa" parser by Ilmen, which corrected camxes' handling of sumti
+tcita and extended camxes.js with suppport for ZOI quotations and elided
+terminator detection.
 
 The camxes-py IRC bot is based loosely on the "valsi" and "gerna" bots written
 by Dag Odenhall for "vlasisku".

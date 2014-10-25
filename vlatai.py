@@ -12,11 +12,14 @@ from transformers.vlatai import Visitor
 VLATAI_RULE = "vlatai"
 
 def main(text):
-  gensuha = analyze_morphology(text)
+  parser = build_parser()
+  gensuha = analyze_morphology(parser, text)
   print jbovlaste_types.classify(gensuha)
 
-def analyze_morphology(text):
-  parser = Parser(VLATAI_RULE)
+def build_parser():
+  return Parser(VLATAI_RULE)
+
+def analyze_morphology(parser, text):
   visitor = Visitor()
   gensuha = None
   try:

@@ -1343,10 +1343,11 @@ vlatai = (
     / ZEI
     / vlatai_bu_clause
     / vlatai_zei_clause
-    / tosmabru / slinkuhi_no_recurse
+    / tosmabru
     / ( non_bu_zei_cmavo+ )
     / BRIVLA
     / CMEVLA
+    / slinkuhi
   )
   vlatai_spaces?
 )
@@ -1488,7 +1489,6 @@ fuhivla_head = ( !rafsi_string brivla_head )
 brivla_head = ( !cmavo !slinkuhi !h &onset unstressed_syllable* )
 
 slinkuhi = ( consonant rafsi_string )
-slinkuhi_no_recurse = ( !lujvo ( consonant rafsi_string ) )
 
 rafsi_string = (
   y_less_rafsi*

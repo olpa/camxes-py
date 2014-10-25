@@ -8,7 +8,7 @@ from optparse import OptionParser
 
 import parsimonious_ext # node_types
 
-VERSION = "v0.6"
+VERSION = "v0.7"
 
 PARSERS      = [ 'camxes-ilmen' ]
 TRANSFORMERS = [ 'camxes-json', 'camxes-morphology', 'vlatai', 'node-coverage', 'debug' ]
