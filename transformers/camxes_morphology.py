@@ -5,13 +5,16 @@ from compiler.ast import flatten
 
 from parsimonious.nodes import NodeVisitor
 
-from parsimonious_ext.node_types import LITERAL, REGEX
+from parsimonious_ext.expression_nodes import LITERAL, REGEX
 
 from structures.gensuha \
   import Gensuha, Cmevla, Gismu, Lujvo, Fuhivla, Cmavo, Naljbo
 
 SELMAHO_UNKNOWN = "TOLSLABU"
 SELMAHO_Y       = "Y"
+
+def is_selmaho_expression(name):
+  return re.match(r"^[ABCDFGIJKLMNPRSTUVXYZ]([AEIOUY]([IU]|h[AEIOU])?)?$", name)
 
 # flatten and join textual nodes
 def lerpoi(children):
@@ -75,19 +78,10 @@ class Visitor(NodeVisitor):
     return Cmavo(text, selmaho)
 
   def generic_visit(self, node, visited_children):
-
-    # CMAVO by selmaho
-    if node.expr_name and re.match(r"[A-Z]+(h[AEIOU])?$", node.expr_name):
-      value = Cmavo(lerpoi(visited_children), node.expr_name)
-
-    elif node.node_type == LITERAL:
-      value = node.text
-
-    elif node.node_type == REGEX:
-      value = node.text
-
+    if node.expr_name and is_selmaho_expression(node.expr_name):
+      return Cmavo(lerpoi(visited_children), node.expr_name)
+    elif node.node_type() in (LITERAL, REGEX):
+      return node.text
     else:
-      value = flatten(visited_children)
-
-    return value
+      return flatten(visited_children)
 

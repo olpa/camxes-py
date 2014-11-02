@@ -1,7 +1,7 @@
 
 import re
 
-from parsimonious_ext.node_types import ALTERNATION, OPTIONAL, LITERAL, REGEX
+from parsimonious_ext.expression_nodes import ALTERNATION, OPTIONAL, LITERAL, REGEX
 
 from parsimonious.nodes import NodeVisitor
 
@@ -110,7 +110,7 @@ def _join(children):
     return ret
 
 def default(node, visited_children):
-  node_type = node.node_type
+  node_type = node.node_type()
   if node_type == LITERAL or node_type == REGEX:
     return node.text
   else:
@@ -126,7 +126,7 @@ def default(node, visited_children):
 #   or with "" as child if no value is matched
 
 def _children(node, visited_children):
-  node_type = node.node_type
+  node_type = node.node_type()
   if node_type == ALTERNATION:
     return _lift_child(visited_children)
   elif node_type == OPTIONAL:

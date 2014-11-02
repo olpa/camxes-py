@@ -6,12 +6,12 @@ import json
 
 from optparse import OptionParser
 
-import parsimonious_ext # node_types
+import parsimonious_ext # expression_nodes
 
 VERSION = "v0.7"
 
 PARSERS      = [ 'camxes-ilmen' ]
-TRANSFORMERS = [ 'camxes-json', 'camxes-morphology', 'vlatai', 'node-coverage', 'debug' ]
+TRANSFORMERS = [ 'camxes-json', 'camxes-morphology', 'vlatai', 'node-coverage', 'debug', 'raw' ]
 SERIALIZERS  = [ 'json', 'json-pretty', 'json-compact' ]
 
 IMPLEMENTATION_RECURSION_LIMIT = {
@@ -117,6 +117,9 @@ def build_transformer(transformer_option, parser):
   elif transformer_option == 'debug':
     from transformers import debug
     return debug.Transformer()
+  elif transformer_option == 'raw':
+    from transformers import raw
+    return raw.Transformer()
   else:
     bad_transformer()
 

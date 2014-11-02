@@ -32,16 +32,19 @@ class Predicate(Compound):
   def evaluate(self, node):
       return True
 
+  # pseudo-syntax: &&
   def _as_rhs(self):
-    return u'&%s{}' % self._unicode_members()[0]
+    return u'&&%s' % self._unicode_members()[0]
 
 class LookaheadPredicate(Compound):
+
+  NODE_TYPE = LOOKAHEAD_PREDICATE
 
   def match_core(self, text, pos, cache, error):
     node = self.members[0].match_core(text, pos, cache, error)
     if node is not None and self.evaluate(node):
       out = Node(self.name, text, pos, pos) # like lookahead
-      out.node_type = LOOKAHEAD_PREDICATE
+      out.expression = self
       return out
     else:
       return None
@@ -51,7 +54,7 @@ class LookaheadPredicate(Compound):
     node = self.members[0]._match(text, pos, cache, error)
     if node is not None and self.evaluate(node):
       out = Node(self.name, text, pos, pos) # like lookahead
-      out.node_type = LOOKAHEAD_PREDICATE
+      out.expression = self
       return out
     else:
       return None
