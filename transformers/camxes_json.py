@@ -958,7 +958,6 @@ class Visitor(NodeVisitor):
   def visit_NIhO_clause(self, node, visited_children):
     return camxes_node(node, visited_children)
 
-
   def visit_NOI_clause(self, node, visited_children):
     return node2(node, visited_children)
 

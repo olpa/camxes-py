@@ -31,7 +31,7 @@ Supported options include: raw, debug, node-coverage, camxes-morphology, vlatai,
 and camxes-json (default)
 
 The --serializer (-s) option controls the serialization of the transformed
-parse tree. Supported options include: json, json-pretty, and
+parse tree. Supported options include: xml, json, json-pretty, and
 json-compact (default)
 
 The --rule (-r) option is used to specify the starting rule or expression used

@@ -41,6 +41,9 @@ class Lerpoi(Gensuha):
       ( "lerpoi",    self.lerpoi    )
     ])
 
+  def as_xml(self):
+    return self.as_json()
+
 class Naljbo(Lerpoi):
 
   GENTURTAI = "naljbo"

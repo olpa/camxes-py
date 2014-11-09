@@ -12,7 +12,7 @@ VERSION = "v0.7"
 
 PARSERS      = [ 'camxes-ilmen' ]
 TRANSFORMERS = [ 'camxes-json', 'camxes-morphology', 'vlatai', 'node-coverage', 'debug', 'raw' ]
-SERIALIZERS  = [ 'json', 'json-pretty', 'json-compact' ]
+SERIALIZERS  = [ 'json', 'json-pretty', 'json-compact', 'xml' ]
 
 IMPLEMENTATION_RECURSION_LIMIT = {
   'CPython' : 10000
@@ -141,6 +141,9 @@ def serialize(transformed, fmt, default_serializer):
     return json.dumps(transformed,
                       indent = 4,
                       default = default_serializer)
+  elif fmt == 'xml':
+    from serializers import xml
+    return xml.dumps(transformed)
   else:
     bad_serializer()
 

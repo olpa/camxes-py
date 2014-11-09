@@ -12,7 +12,6 @@ def _is_consonant(name):
 def _is_vowel(name):
   return re.match(r"^[aeiouy]$", name)
 
-
 class Transformer:
 
   def transform(self, parsed):
@@ -90,6 +89,14 @@ class DebugNode:
   def as_json(self):
     return self.as_json_container()
 
+  def as_xml(self):
+    name = (self.name() or self.node_type())
+    xml_json = [ name ]
+    for child_node in self.children:
+      child_xml_json = child_node.as_xml()
+      xml_json.append(child_xml_json)
+    return xml_json
+
   def as_json_container(self):
     children = [ c for c in self.children if not c.is_empty() ]
     return { self.label() : children }
@@ -106,13 +113,27 @@ class ExpressionNode(DebugNode):
     else:
       return self.as_json_container()
 
+  def as_xml(self):
+    node_type = self.node_type()
+    if node_type in (LITERAL, REGEX):
+      return self.text()
+    else:
+      return DebugNode.as_xml(self)
+
 class TextContainerNode(DebugNode):
 
   def as_json(self):
     return self.as_text_container()
 
+  def as_xml(self):
+    name = (self.name() or self.node_type())
+    return [ name, self.text() ]
+
 class TextValueNode(DebugNode):
 
   def as_json(self):
+    return self.text()
+
+  def as_xml(self):
     return self.text()
 
