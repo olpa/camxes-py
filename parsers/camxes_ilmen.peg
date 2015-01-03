@@ -1626,7 +1626,7 @@ coda = (
   / ( syllabic? consonant? &pause )
 )
 
-onset = ( h / ( consonant? glide ) / initial )
+onset = ( h / glide / initial )
 
 nucleus = ( vowel / diphthong / ( y !nucleus ) )
 
@@ -1674,39 +1674,39 @@ voiced = ( b / d / g / j / v / z )
 
 unvoiced = ( c / f / k / p / s / t / x )
 
-l = ( comma* ~"[lL]" !h !l )
+l = ( comma* ~"[lL]" !h !glide !l )
 
-m = ( comma* ~"[mM]" !h !m !z )
+m = ( comma* ~"[mM]" !h !glide !m !z )
 
-n = ( comma* ~"[nN]" !h !n !affricate )
+n = ( comma* ~"[nN]" !h !glide !n !affricate )
 
-r = ( comma* ~"[rR]" !h !r )
+r = ( comma* ~"[rR]" !h !glide !r )
 
-b = ( comma* ~"[bB]" !h !b !unvoiced )
+b = ( comma* ~"[bB]" !h !glide !b !unvoiced )
 
-d = ( comma* ~"[dD]" !h !d !unvoiced )
+d = ( comma* ~"[dD]" !h !glide !d !unvoiced )
 
-g = ( comma* ~"[gG]" !h !g !unvoiced )
+g = ( comma* ~"[gG]" !h !glide !g !unvoiced )
 
-v = ( comma* ~"[vV]" !h !v !unvoiced )
+v = ( comma* ~"[vV]" !h !glide !v !unvoiced )
 
-j = ( comma* ~"[jJ]" !h !j !z !unvoiced )
+j = ( comma* ~"[jJ]" !h !glide !j !z !unvoiced )
 
-z = ( comma* ~"[zZ]" !h !z !j !unvoiced )
+z = ( comma* ~"[zZ]" !h !glide !z !j !unvoiced )
 
-s = ( comma* ~"[sS]" !h !s !c !voiced )
+s = ( comma* ~"[sS]" !h !glide !s !c !voiced )
 
-c = ( comma* ~"[cC]" !h !c !s !x !voiced )
+c = ( comma* ~"[cC]" !h !glide !c !s !x !voiced )
 
-x = ( comma* ~"[xX]" !h !x !c !k !voiced )
+x = ( comma* ~"[xX]" !h !glide !x !c !k !voiced )
 
-k = ( comma* ~"[kK]" !h !k !x !voiced )
+k = ( comma* ~"[kK]" !h !glide !k !x !voiced )
 
-f = ( comma* ~"[fF]" !h !f !voiced )
+f = ( comma* ~"[fF]" !h !glide !f !voiced )
 
-p = ( comma* ~"[pP]" !h !p !voiced )
+p = ( comma* ~"[pP]" !h !glide !p !voiced )
 
-t = ( comma* ~"[tT]" !h !t !voiced )
+t = ( comma* ~"[tT]" !h !glide !t !voiced )
 
 h = ( comma* ~"['h]" &nucleus )
 
