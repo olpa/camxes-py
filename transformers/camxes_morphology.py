@@ -18,9 +18,9 @@ def is_selmaho_expression(name):
 
 # flatten and join textual nodes
 def lerpoi(children):
-  return "".join(flatten(children))
+  return "".join(str(child) for child in flatten(children))
 
-class Transformer:
+class Transformer(object):
 
   def transform(self, parsed):
     return Visitor().visit(parsed)

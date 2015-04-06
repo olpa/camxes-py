@@ -10,25 +10,37 @@ from collections import OrderedDict
 # A text which is accepted by a {genturfa'i} is a {terge'a}, a grammatical
 # text according to the {gerna} of the {genturfa'i}.
 
-# gensu'a : grammar-structure
-
-# This describes the structures discoved by the parser, with complex {gensu'a}
-# being composed of less complex {gensu'a}.
-
 # genturtai : grammar-structure form
 
-# Parsed {gensu'a} may be classified by form of composition, {genturtai}.
-# Individual characters, {lerfu}, are atomic {gensu'a}. A sequence of {lerfu}
-# compose a {lerpoi}. Lojban's rules of morphology define specific {lerpoi}
-# forms, such as {cmevla}, {brivla} and {cmavo}. Different forms of {brivla}
-# are distinguished as {gismu}, {lujvo} and {fu'ivla}. A sequence of {brivla}
-# compose a {tanru}.
+class Gensuha(object):
+  """
+  gensu'a: grammar structure
 
-class Gensuha:
+  A structure discovered by the parser, with complex {gensu'a}
+  being composed of less complex {gensu'a}.
+
+  Parsed {gensu'a} may be classified by form of composition, {genturtai}.
+  Individual characters, {lerfu}, are atomic {gensu'a}. A sequence of {lerfu}
+  compose a {lerpoi}. Lojban's rules of morphology define specific {lerpoi}
+  forms, such as {cmevla}, {brivla} and {cmavo}. Different forms of {brivla}
+  are distinguished as {gismu}, {lujvo} and {fu'ivla}. A sequence of {brivla}
+  compose a {tanru}.
+  """
 
   GENTURTAI = "naltarmi"
 
+  def lerpoi(self):
+    raise NotImplementedError
+
+  def __str__(self):
+    return ''.join(self.lerpoi)
+
 class Lerpoi(Gensuha):
+  """
+  lerpoi: letteral sequence
+
+  A string of characters.
+  """
 
   GENTURTAI = "lerpoi"
 
@@ -56,7 +68,7 @@ class Cmevla(Valsi):
 
   GENTURTAI = "cmevla"
 
-class Selbri: # not itself a structure, but a property of some structures
+class Selbri(object): # not itself a structure, but a property of some structures
   pass
 
 class Brivla(Valsi, Selbri):
@@ -66,7 +78,7 @@ class Gismu(Brivla):
 
   GENTURTAI = "gismu"
 
-class Jvodunlei: # not a structure
+class Jvodunlei(object): # not a structure
   pass
 
 class Lujvo(Brivla, Jvodunlei):
@@ -93,11 +105,18 @@ class Cmavo(Valsi):
     ])
 
 class Vlapoi(Gensuha):
+  """
+  vlapoi: word sequence
+  """
 
   GENTURTAI = "vlapoi"
 
   def __init__(self, vlapoi):
     self.vlapoi = vlapoi
+
+  @property
+  def lerpoi(self):
+    return [lerfu for valsi in self.vlapoi for lerfu in valsi.lerpoi]
 
   def as_json(self):
     return OrderedDict([
@@ -109,7 +128,7 @@ class ZeiLujvo(Vlapoi, Jvodunlei):
 
   GENTURTAI = "zei-lujvo"
 
-class Lerdunlei: # not a structure
+class Lerdunlei(object): # not a structure
   pass
 
 class BuLetteral(Vlapoi, Lerdunlei):
