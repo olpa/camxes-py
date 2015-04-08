@@ -1,10 +1,12 @@
 
+# pylint: disable=I0011, C0111, no-name-in-module, no-self-use, protected-access, no-member
+
 from parsimonious_ext.version import PARSIMONIOUS_VERSION
 
 if PARSIMONIOUS_VERSION > 0.5:
-  from parsimonious.expressions import Compound
+    from parsimonious.expressions import Compound
 else:
-  from parsimonious.expressions import _Compound as Compound
+    from parsimonious.expressions import _Compound as Compound
 
 from parsimonious.nodes import Node
 
@@ -14,48 +16,48 @@ LOOKAHEAD_PREDICATE = "LOOKAHEAD_PREDICATE"
 
 class Predicate(Compound):
 
-  def match_core(self, text, pos, cache, error):
-    node = self.members[0].match_core(text, pos, cache, error)
-    if node is not None and self.evaluate(node):
-      return node
-    else:
-      return None
+    def match_core(self, text, pos, cache, error):
+        node = self.members[0].match_core(text, pos, cache, error)
+        if node is not None and self.evaluate(node):
+            return node
+        else:
+            return None
 
-  # (for parsimonious < v0.6)
-  def _match(self, text, pos, cache, error):
-    node = self.members[0]._match(text, pos, cache, error)
-    if node is not None and self.evaluate(node):
-      return node
-    else:
-      return None
+    # (for parsimonious < v0.6)
+    def _match(self, text, pos, cache, error):
+        node = self.members[0]._match(text, pos, cache, error)
+        if node is not None and self.evaluate(node):
+            return node
+        else:
+            return None
 
-  def evaluate(self, node):
-      return True
+    def evaluate(self, _): # ignoring node
+        return True
 
-  # pseudo-syntax: &&
-  def _as_rhs(self):
-    return u'&&%s' % self._unicode_members()[0]
+    # pseudo-syntax: &&
+    def _as_rhs(self):
+        return u'&&%s' % self._unicode_members()[0]
 
 class LookaheadPredicate(Compound):
 
-  NODE_TYPE = LOOKAHEAD_PREDICATE
+    NODE_TYPE = LOOKAHEAD_PREDICATE
 
-  def match_core(self, text, pos, cache, error):
-    node = self.members[0].match_core(text, pos, cache, error)
-    if node is not None and self.evaluate(node):
-      out = Node(self.name, text, pos, pos) # like lookahead
-      out.expression = self
-      return out
-    else:
-      return None
+    def match_core(self, text, pos, cache, error):
+        node = self.members[0].match_core(text, pos, cache, error)
+        if node is not None and self.evaluate(node):
+            out = Node(self.name, text, pos, pos) # like lookahead
+            out.expression = self
+            return out
+        else:
+            return None
 
-  # (for parsimonious < v0.6)
-  def _match(self, text, pos, cache, error):
-    node = self.members[0]._match(text, pos, cache, error)
-    if node is not None and self.evaluate(node):
-      out = Node(self.name, text, pos, pos) # like lookahead
-      out.expression = self
-      return out
-    else:
-      return None
+    # (for parsimonious < v0.6)
+    def _match(self, text, pos, cache, error):
+        node = self.members[0]._match(text, pos, cache, error)
+        if node is not None and self.evaluate(node):
+            out = Node(self.name, text, pos, pos) # like lookahead
+            out.expression = self
+            return out
+        else:
+            return None
 

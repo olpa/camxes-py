@@ -1,9 +1,15 @@
 
-class Mixin:
+# pylint: disable=I0011, C0111, too-few-public-methods
 
-  """Mixin for IRC protocols with factories that provide a nick"""
+class Mixin(object):
+    """Mixin for IRC protocols with factories that provide a nick"""
 
-  def _get_nickname(self):
-    return self.factory.nickname
-  nickname = property(_get_nickname)
+    @property
+    def nickname(self):
+        return self.factory.nickname
+
+    @nickname.setter
+    def nickname(self, _):
+        """Ignoring assignments"""
+        pass
 

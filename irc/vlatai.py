@@ -1,41 +1,43 @@
 
-import dispatcher
-import factory_naming
+# pylint: disable=I0011, C0111, bare-except, too-many-ancestors
+
+from irc.dispatcher import BaseDispatcher
+from irc.factory_naming import Mixin as FactoryNamingMixin
+from irc.protocol import DispatchableIrcClient
 
 from structures import jbovlaste_types
 from parsers import camxes_ilmen
 from transformers import vlatai
-from protocol import DispatchableIrcClient
 
-class Dispatcher(dispatcher.BaseDispatcher):
+class Dispatcher(BaseDispatcher, object):
 
-  def __init__(self, client):
-    self.client = client
-    self.parser = camxes_ilmen.Parser('vlatai')
-    self.transformer = vlatai.Transformer()
+    def __init__(self, client):
+        super(Dispatcher, self).__init__(client)
+        self.parser = camxes_ilmen.Parser('vlatai')
+        self.transformer = vlatai.Transformer()
 
-  def dispatch_command(self, nick, target, query):
-    response = self._parse_vlatai(query, nick)
-    if response:
-      self._msg(target, response)
+    def dispatch_command(self, nick, target, query):
+        response = self._parse_vlatai(query)
+        if response:
+            self._msg(target, response)
 
-  def _parse_vlatai(self, text, nick):
-    try:
-      gensuha = self._transform(text)
-      response = jbovlaste_types.classify(gensuha)
-    except Exception, e:
-      response = jbovlaste_types.NALVLA
-    return response
+    def _parse_vlatai(self, text):
+        try:
+            gensuha = self._transform(text)
+            response = jbovlaste_types.classify(gensuha)
+        except:
+            response = jbovlaste_types.NALVLA
+        return response
 
-  def _transform(self, text):
-    parsed = self.parser.parse(text)
-    return self.transformer.transform(parsed)
+    def _transform(self, text):
+        parsed = self.parser.parse(text)
+        return self.transformer.transform(parsed)
 
-  def _msg(self, target, text):
-    self.client.msg(target, text)
+    def _msg(self, target, text):
+        self.client.msg(target, text)
 
-class Protocol(factory_naming.Mixin, DispatchableIrcClient):
+class Protocol(FactoryNamingMixin, DispatchableIrcClient):
 
-  def _initialize_dispatcher(self):
-    self.dispatcher = Dispatcher(self)
+    def _initialize_dispatcher(self):
+        self.dispatcher = Dispatcher(self)
 

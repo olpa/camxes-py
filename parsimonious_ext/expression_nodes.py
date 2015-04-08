@@ -1,7 +1,12 @@
 
+# pylint: disable=I0011, C0111, C0326, too-many-arguments, protected-access
+
+from functools import partial
+
 from parsimonious.nodes import Node
-from parsimonious.expressions \
-    import Literal, Regex, Sequence, OneOf, Lookahead, Not, Optional, ZeroOrMore, OneOrMore
+from parsimonious.expressions import Literal, Regex, Sequence, OneOf, \
+                                     Lookahead, Not, Optional,        \
+                                     ZeroOrMore, OneOrMore
 
 LITERAL     = "LITERAL"
 REGEX       = "REGEX"
@@ -13,150 +18,147 @@ OPTIONAL    = "OPTIONAL"
 STAR        = "STAR"
 PLUS        = "PLUS"
 
-##
+Literal.NODE_TYPE    = LITERAL
+Regex.NODE_TYPE      = REGEX
+Sequence.NODE_TYPE   = SEQUENCE
+OneOf.NODE_TYPE      = ALTERNATION
+Lookahead.NODE_TYPE  = LOOKAHEAD
+Not.NODE_TYPE        = NOT
+Optional.NODE_TYPE   = OPTIONAL
+ZeroOrMore.NODE_TYPE = STAR
+OneOrMore.NODE_TYPE  = PLUS
 
-Node._orig_init = Node.__init__
-def _expression_node_init(self, expr_name, full_text, start, end, children=None):
-  Node._orig_init(self, expr_name, full_text, start, end, children)
-  self.expression = None
-Node.__init__ = _expression_node_init
+def wrap_method(cls, func_name):
+    def decorator(func):
+        wrapped = getattr(cls, func_name)
+        unbound_wrapper = partial(func, original=wrapped)
+        def wrapper(self, *args, **kwargs):
+            return unbound_wrapper(self, *args, **kwargs)
+        setattr(cls, func_name, wrapper)
+        return wrapper
+    return decorator
 
-def _node_description(self):
-  return self.expression._as_rhs() if self.expression else None
-Node.description = _node_description
+def patch(cls, func_name):
+    """Add method, replacing any previous method by name"""
+    def decorator(func):
+        setattr(cls, func_name, func)
+        return func
+    return decorator
 
-def _node_type(self):
-  return self.expression.NODE_TYPE if self.expression else None
-Node.node_type = _node_type
+# Node extensions
 
-##
+@wrap_method(Node, '__init__')
+def node_init(self, expr, full_text, start, end,
+              children=None, original=None):
+    original(self, expr, full_text, start, end, children)
+    self.expression = None
+
+@patch(Node, 'description')
+def node_description(self):
+    return self.expression._as_rhs() if self.expression else None
+
+@patch(Node, 'node_type')
+def node_type(self):
+    return self.expression.NODE_TYPE if self.expression else None
+
+# Literal extensions
+
+@wrap_method(Literal, '_uncached_match')
+def literal_uncached_match(self, text, pos, cache, error, original=None):
+    node = original(self, text, pos, cache, error)
+    return expression_node(node, self)
 
 def expression_node(node, expression):
-  if node is not None:
-    node.expression = expression
-  return node
+    if node is not None:
+        node.expression = expression
+    return node
 
-#
+# Regex extensions
 
-Literal.NODE_TYPE = LITERAL
+@wrap_method(Regex, '_uncached_match')
+def regex_uncached_match(self, text, pos, cache, error, original=None):
+    node = original(self, text, pos, cache, error)
+    return expression_node(node, self)
 
-Literal._orig_uncached_match = Literal._uncached_match
-def _literal_uncached_match(self, text, pos, cache, error):
-  node = Literal._orig_uncached_match(self, text, pos, cache, error)
-  return expression_node(node, self)
-Literal._uncached_match = _literal_uncached_match
+# Sequence extensions
 
-#
+@wrap_method(Sequence, '_uncached_match')
+def sequence_uncached_match(self, text, pos, cache, error, original=None):
+    node = original(self, text, pos, cache, error)
+    return expression_node(node, self)
 
-Regex.NODE_TYPE = REGEX
+@wrap_method(Sequence, '_as_rhs')
+def sequence_grouped_as_rhs(self, original=None):
+    return u'(%s)' % original(self)
 
-Regex._orig_uncached_match = Regex._uncached_match
-def _regex_uncached_match(self, text, pos, cache, error):
-  node = Regex._orig_uncached_match(self, text, pos, cache, error)
-  return expression_node(node, self)
-Regex._uncached_match = _regex_uncached_match
+# OneOf extensions
 
-#
+@wrap_method(OneOf, '_uncached_match')
+def one_of_uncached_match(self, text, pos, cache, error, original=None):
+    node = original(self, text, pos, cache, error)
+    return expression_node(node, self)
 
-Sequence.NODE_TYPE = SEQUENCE
+@wrap_method(OneOf, '_as_rhs')
+def one_of_grouped_as_rhs(self, original=None):
+    return u'(%s)' % original(self)
 
-Sequence._orig_uncached_match = Sequence._uncached_match
-def _sequence_uncached_match(self, text, pos, cache, error):
-  node = Sequence._orig_uncached_match(self, text, pos, cache, error)
-  return expression_node(node, self)
-Sequence._uncached_match = _sequence_uncached_match
+# Lookahead extensions
 
-Sequence._orig_as_rhs = Sequence._as_rhs
-def _sequence_grouped_as_rhs(self):
-  return u'(%s)' % self._orig_as_rhs()
-Sequence._as_rhs = _sequence_grouped_as_rhs
+@wrap_method(Lookahead, '_uncached_match')
+def lookahead_uncached_match(self, text, pos, cache, error, original=None):
+    node = original(self, text, pos, cache, error)
+    return expression_node(node, self)
 
-#
+@patch(Lookahead, '_as_rhs')
+def lookahead_grouped_as_rhs(self):
+    fmt = u'&(%s)' if len(self.members) > 1 else u'&%s'
+    return fmt % self._unicode_members()[0]
 
-OneOf.NODE_TYPE = ALTERNATION
+# Not extensions
 
-OneOf._orig_uncached_match = OneOf._uncached_match
-def _alternation_uncached_match(self, text, pos, cache, error):
-  node = OneOf._orig_uncached_match(self, text, pos, cache, error)
-  return expression_node(node, self)
-OneOf._uncached_match = _alternation_uncached_match
+@wrap_method(Not, '_uncached_match')
+def not_uncached_match(self, text, pos, cache, error, original=None):
+    node = original(self, text, pos, cache, error)
+    return expression_node(node, self)
 
-OneOf._orig_as_rhs = OneOf._as_rhs
-def _alternation_grouped_as_rhs(self):
-  return u'(%s)' % self._orig_as_rhs()
-OneOf._as_rhs = _alternation_grouped_as_rhs
+@patch(Not, '_as_rhs')
+def not_grouped_as_rhs(self):
+    fmt = u'!(%s)' if len(self.members) > 1 else u'!%s'
+    return fmt % self._unicode_members()[0]
 
-#
+# Optional extensions
 
-Lookahead.NODE_TYPE = LOOKAHEAD
+@wrap_method(Optional, '_uncached_match')
+def optional_uncached_match(self, text, pos, cache, error, original=None):
+    node = original(self, text, pos, cache, error)
+    return expression_node(node, self)
 
-Lookahead._orig_uncached_match = Lookahead._uncached_match
-def _lookahead_uncached_match(self, text, pos, cache, error):
-  node = Lookahead._orig_uncached_match(self, text, pos, cache, error)
-  return expression_node(node, self)
-Lookahead._uncached_match = _lookahead_uncached_match
+@patch(Optional, '_as_rhs')
+def optional_grouped_as_rhs(self):
+    fmt = u'(%s)?' if len(self.members) > 1 else u'%s?'
+    return fmt % self._unicode_members()[0]
 
-def _lookahead_grouped_as_rhs(self):
-  fmt = u'&(%s)' if len(self.members) > 1 else u'&%s'
-  return fmt % self._unicode_members()[0]
-Lookahead._as_rhs = _lookahead_grouped_as_rhs
+# ZeroOrMore extensions
 
-#
+@wrap_method(ZeroOrMore, '_uncached_match')
+def zero_or_more_uncached_match(self, text, pos, cache, error, original=None):
+    node = original(self, text, pos, cache, error)
+    return expression_node(node, self)
 
-Not.NODE_TYPE = NOT
+@patch(ZeroOrMore, '_as_rhs')
+def zero_or_more_grouped_as_rhs(self):
+    fmt = u'(%s)*' if len(self.members) > 1 else u'%s*'
+    return fmt % self._unicode_members()[0]
 
-Not._orig_uncached_match = Not._uncached_match
-def _not_uncached_match(self, text, pos, cache, error):
-  node = Not._orig_uncached_match(self, text, pos, cache, error)
-  return expression_node(node, self)
-Not._uncached_match = _not_uncached_match
+# OneOrMore extensions
 
-def _not_grouped_as_rhs(self):
-  fmt = u'!(%s)' if len(self.members) > 1 else u'!%s'
-  return fmt % self._unicode_members()[0]
-Not._as_rhs = _not_grouped_as_rhs
+@wrap_method(OneOrMore, '_uncached_match')
+def one_or_more_uncached_match(self, text, pos, cache, error, original=None):
+    node = original(self, text, pos, cache, error)
+    return expression_node(node, self)
 
-#
-
-Optional.NODE_TYPE = OPTIONAL
-
-Optional._orig_uncached_match = Optional._uncached_match
-def _optional_uncached_match(self, text, pos, cache, error):
-  node = Optional._orig_uncached_match(self, text, pos, cache, error)
-  return expression_node(node, self)
-Optional._uncached_match = _optional_uncached_match
-
-def _optional_grouped_as_rhs(self):
-  fmt = u'(%s)?' if len(self.members) > 1 else u'%s?'
-  return fmt % self._unicode_members()[0]
-Optional._as_rhs = _optional_grouped_as_rhs
-
-#
-
-ZeroOrMore.NODE_TYPE = STAR
-
-ZeroOrMore._orig_uncached_match = ZeroOrMore._uncached_match
-def _star_uncached_match(self, text, pos, cache, error):
-  node = ZeroOrMore._orig_uncached_match(self, text, pos, cache, error)
-  return expression_node(node, self)
-ZeroOrMore._uncached_match = _star_uncached_match
-
-def _star_grouped_as_rhs(self):
-  fmt = u'(%s)*' if len(self.members) > 1 else u'%s*'
-  return fmt % self._unicode_members()[0]
-ZeroOrMore._as_rhs = _star_grouped_as_rhs
-
-#
-
-OneOrMore.NODE_TYPE = PLUS
-OneOrMore._orig_uncached_match = OneOrMore._uncached_match
-def _plus_uncached_match(self, text, pos, cache, error):
-  node = OneOrMore._orig_uncached_match(self, text, pos, cache, error)
-  return expression_node(node, self)
-OneOrMore._uncached_match = _plus_uncached_match
-
-def _plus_grouped_as_rhs(self):
-  fmt = u'(%s)+' if len(self.members) > 1 else u'%s+'
-  return fmt % self._unicode_members()[0]
-OneOrMore._as_rhs = _plus_grouped_as_rhs
+@patch(OneOrMore, '_as_rhs')
+def one_or_more_grouped_as_rhs(self):
+    fmt = u'(%s)+' if len(self.members) > 1 else u'%s+'
+    return fmt % self._unicode_members()[0]
 
