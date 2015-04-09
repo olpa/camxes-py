@@ -112834,6 +112834,16 @@
             "md5" : "+TT8Xlm1P3eRYHd8SPQ6sA",
             "txt" : "le verba cu ve'a vi'a cadzu le bisli",
             "out" : "UNKNOWN"
+        },
+        {
+            "md5" : "NpT7ZwtCTMItD5Sk3ULWcg",
+            "txt" : "vi bai broda",
+            "out" : "UNKNOWN"
+        },
+        {
+            "md5" : "NpT7ZwtCTMItD5Sk3ULWcg",
+            "txt" : "do ka'e roroi tavla",
+            "out" : "UNKNOWN"
         }
     ]
 }

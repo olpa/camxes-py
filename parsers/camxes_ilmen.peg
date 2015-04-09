@@ -214,7 +214,7 @@ abs_term_1 = ( sumti / abs_tag_term / termset / ( NA_clause KU_clause free* ) )
 
 abs_tag_term = (
   !gek
-  ( ( tag !selbri !gek_sentence ) / ( FA_clause free* ) )
+  ( ( tag !( !tag selbri ) !gek_sentence ) / ( FA_clause free* ) )
   ( sumti / ( KU_elidible free* ) )
 )
 
