@@ -598,7 +598,7 @@ stag = (
 
 tense_modal = (
   ( simple_tense_modal free* )
-  / ( FIhO_clause free* selbri FEhU_clause? free* )
+  / ( FIhO_clause free* selbri FEhU_elidible free* )
 )
 
 simple_tense_modal = (
@@ -1571,7 +1571,7 @@ hy_rafsi = (
 
 stressed_hy_rafsi = (
   ( ( long_rafsi stressed_vowel ) / stressed_CCV_rafsi / stressed_CVV_rafsi )
-  h y h?
+  h y
 )
 
 long_rafsi = (
@@ -1616,9 +1616,7 @@ any_syllable = ( ( onset nucleus coda? ) / consonantal_syllable )
 syllable = ( onset !y nucleus coda? )
 
 consonantal_syllable = (
-  consonant syllabic
-  &( consonantal_syllable / onset )
-  ( consonant &spaces )?
+  consonant &syllabic coda
 )
 
 coda = (

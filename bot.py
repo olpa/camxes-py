@@ -9,7 +9,7 @@ from argparse import ArgumentParser
 from twisted.internet import reactor
 from twisted.python import log
 
-from camxes import VERSION
+from camxes import __version__
 from irc.protocol_factory import IrcClientFactory
 
 DEFAULT_HOST     = "irc.freenode.net"
@@ -61,7 +61,7 @@ def _parse_args():
                       dest="dispatch", default=DEFAULT_DISPATCH)
 
     args.add_argument("-v", "--version",
-                      action="version", version=VERSION)
+                      action="version", version=__version__)
 
     return args.parse_args()
 

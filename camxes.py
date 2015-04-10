@@ -10,7 +10,7 @@ from optparse import OptionParser
 
 import parsimonious_ext # expression_nodes
 
-VERSION = "v0.7"
+__version__ = "v0.8"
 
 PARSERS      = [ 'camxes-ilmen' ]
 TRANSFORMERS = [ 'camxes-json', 'camxes-morphology', 'vlatai', 'node-coverage', 'debug', 'raw' ]
@@ -157,7 +157,7 @@ def _main():
 
 def _parse_args():
     usage_fmt = "usage: %prog [ options ] { input }"
-    options = OptionParser(usage=usage_fmt, version="%prog " + VERSION)
+    options = OptionParser(usage=usage_fmt, version="%prog " + __version__)
 
     if len(PARSERS) > 1:
         options.add_option("-p", "--parser",

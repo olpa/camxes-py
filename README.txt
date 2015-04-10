@@ -1,7 +1,6 @@
 
 camxes-py is a pure Python implementation of the lojban "camxes" PEG parser.
-From v0.6, camxes-py uses updated, v119 camxes morphology. Earlier versions
-used v108 morphology.
+From v0.8, camxes-py uses v135 camxes morphology.
 
 USAGE
 =====

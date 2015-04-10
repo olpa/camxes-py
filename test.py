@@ -9,13 +9,13 @@ from collections import OrderedDict
 
 from parsimonious.exceptions import ParseError
 
-from camxes import VERSION, configure_platform
+from camxes import __version__, configure_platform
 from parsers import camxes_ilmen
 from transformers import camxes_json, camxes_morphology
 
 ENV = OrderedDict([
     ("engine", "camxes-py"),
-    ("version", VERSION),
+    ("version", __version__),
     ("format", "camxes-json"),
     ("serialization", "json-compact")
 ])

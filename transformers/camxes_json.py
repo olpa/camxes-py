@@ -165,7 +165,7 @@ class Visitor(NodeVisitor):
     # ___ GRAMMAR ___
 
     def visit_text(self, node, visited_children):
-        return camxes_node(node, visited_children)
+        return node_nonempty(node, visited_children)
 
     def visit_intro_null(self, node, visited_children):
         return node_nonempty(node, visited_children)
@@ -609,7 +609,8 @@ class Visitor(NodeVisitor):
     def visit_pre_zei_bu(self, node, visited_children):
         return camxes_node(node, visited_children)
 
-    # dot_star
+    def visit_dot_star(self, node, visited_children):
+        return "".join("_" if c == " " else c for c in visited_children)
 
     def visit_post_clause(self, node, visited_children):
         return node_nonempty(node, visited_children)
