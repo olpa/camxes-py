@@ -1480,9 +1480,9 @@ brivla_rafsi = (
   h?
 )
 
-stressed_fuhivla_rafsi = ( fuhivla_head stressed_syllable &consonant onset y )
+stressed_fuhivla_rafsi = ( fuhivla_head stressed_syllable !h onset y )
 
-fuhivla_rafsi = ( &unstressed_syllable fuhivla_head &consonant onset y h? )
+fuhivla_rafsi = ( &unstressed_syllable fuhivla_head !h onset y h? )
 
 fuhivla_head = ( !rafsi_string brivla_head )
 
@@ -1632,7 +1632,7 @@ nucleus = ( vowel / diphthong / ( y !nucleus ) )
 
 glide = ( ( i / u ) &nucleus )
 
-diphthong = ( ( (a i) / (a u) / (e i) / (o i) ) !nucleus !glide )
+diphthong = ( ( (a i !i) / (a u !u)  / (e i !i) / (o i !i) ) !nucleus )
 
 vowel = ( ( a / e / i / o / u ) !nucleus )
 
