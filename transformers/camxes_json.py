@@ -21,10 +21,10 @@ def _is_nonempty_list(obj):
     return isinstance(obj, list) and obj
 
 def _has_name_head(seq):
-    return isinstance(seq[0], basestring) and seq[0] != ""
+    return isinstance(seq[0], str) and seq[0] != ""
 
 def _node_int(name, args):
-    if isinstance(args, basestring):
+    if isinstance(args, str):
         ret = args
     else:
         ret = [] if name == None else [name]
@@ -103,7 +103,7 @@ def join(node, visited_children):
     return _join(children)
 
 def _join(children):
-    if isinstance(children, basestring):
+    if isinstance(children, str):
         return children
     else:
         ret = ""

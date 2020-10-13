@@ -3,7 +3,7 @@
 
 import re
 
-from compiler.ast import flatten
+from .util import flatten
 
 from parsimonious.nodes import NodeVisitor
 

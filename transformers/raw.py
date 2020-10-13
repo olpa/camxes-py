@@ -15,7 +15,7 @@ KEY_ORDER = {
 }
 
 def _sorted_node_dictionary(dct):
-    return OrderedDict(sorted(dct.items(), key=lambda t: KEY_ORDER[t[0]]))
+    return OrderedDict(sorted(list(dct.items()), key=lambda t: KEY_ORDER[t[0]]))
 
 def generic_node(node, visited_children):
 

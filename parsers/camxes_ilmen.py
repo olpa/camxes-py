@@ -5,7 +5,6 @@ import os
 
 from parsimonious.grammar import Grammar
 
-from parsimonious_ext.version import PARSIMONIOUS_VERSION
 from parsimonious_ext.expressions import Predicate, LookaheadPredicate
 
 GRAMMAR_FILENAME = "camxes_ilmen.peg"
@@ -13,17 +12,6 @@ GRAMMAR_FILENAME = "camxes_ilmen.peg"
 ZOI_DELIMITER_KEY = "zoi_delimiter"
 
 def build_grammar(path, default_rule):
-    if PARSIMONIOUS_VERSION > 0.5:
-        return build_grammar_06(path)
-    else:
-        return build_grammar_05(path, default_rule)
-
-def build_grammar_05(path, default_rule):
-    with open(path) as handle:
-        grammar = Grammar(handle.read(), default_rule)
-    return grammar
-
-def build_grammar_06(path):
     with open(path) as handle:
         grammar = Grammar(handle.read())
     return grammar
@@ -75,7 +63,7 @@ class Parser(object):
         self._enhance_grammar(default_rule)
 
     def _enhance_grammar(self, default_rule):
-        if (default_rule is not None) and (PARSIMONIOUS_VERSION > 0.5):
+        if default_rule is not None:
             self._apply_default_rule(default_rule)
         self._add_zoi_quotation_handling()
 
@@ -91,6 +79,10 @@ class Parser(object):
         self._enhance_zoi_open(quotation_state)
         self._enhance_zoi_word(quotation_state)
         self._enhance_zoi_close(quotation_state)
+    
+    @staticmethod
+    def _rewrite_tuple(vals, i, new):
+        return tuple((new if i == j else val) for j, val in enumerate(vals))
 
     def _enhance_zoi_open(self, quotation_state):
         # replace zoi_open lookahead with delimiter capturing predicate
@@ -99,7 +91,7 @@ class Parser(object):
         zoi_open_word = zoi_open_lookahead.members[0]
         zoi_open_predicate = ZoiCaptureDelimiterPredicate(zoi_open_word,
                                                           quotation_state)
-        zoi_open.members[0] = zoi_open_predicate
+        zoi_open.members = self._rewrite_tuple(zoi_open.members, 0, zoi_open_predicate)
 
     def _enhance_zoi_word(self, quotation_state):
         # wrap zoi_word non_space_plus with quoted word predicate
@@ -107,7 +99,7 @@ class Parser(object):
         zoi_word_non_space_plus = zoi_word.members[0]
         zoi_word_predicate = ZoiQuotedWordPredicate(zoi_word_non_space_plus,
                                                     quotation_state)
-        zoi_word.members[0] = zoi_word_predicate
+        zoi_word.members = self._rewrite_tuple(zoi_word.members, 0, zoi_word_predicate)
 
     def _enhance_zoi_close(self, quotation_state):
         # replace zoi_close lookahead with delimiter predicate
@@ -116,7 +108,7 @@ class Parser(object):
         zoi_close_word = zoi_close_lookahead.members[0]
         zoi_close_predicate = ZoiDelimiterPredicate(zoi_close_word,
                                                     quotation_state)
-        zoi_close.members[0] = zoi_close_predicate
+        zoi_close.members = self._rewrite_tuple(zoi_close.members, 0, zoi_close_predicate)
 
     def parse(self, text):
         return self.grammar.parse(text)

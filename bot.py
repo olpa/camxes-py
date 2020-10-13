@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # pylint: disable=I0011, C0111, import-error, bad-whitespace, no-member
 

@@ -1,7 +1,7 @@
 
 # pylint: disable=I0011, C0111, no-self-use, unused-argument
 
-from compiler.ast import flatten
+from .util import flatten
 
 from transformers import camxes_morphology
 from structures.gensuha import BuLetteral, ZeiLujvo, Tosmabru, Slinkuhi

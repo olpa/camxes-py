@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # pylint: disable=I0011, C0111, C0326, W0611
 
@@ -70,30 +70,19 @@ def bad_serializer():
         (", ".join(SERIALIZERS)))
 
 def configure_platform():
-    impl = python_platform()
+    impl = platform.python_implementation()
     if impl in IMPLEMENTATION_RECURSION_LIMIT:
         stack_limit = IMPLEMENTATION_RECURSION_LIMIT[impl]
         sys.setrecursionlimit(stack_limit)
-
-def python_platform():
-    if python_version() >= 260:
-        return platform.python_implementation()
-    else:
-        # NOTE: Untested with Java < 2.7; IronPython < 2.6 is not detected
-        return "Jython" if platform.system() == "Java" else "CPython"
-
-def python_version():
-    (major, minor, _) = platform.python_version_tuple()
-    return (major * 10) + minor
 
 def run(text, options):
     parser = build_parser(options)
     parsed = parser.parse(text)
     transformer = build_transformer(options.transformer, parser)
     transformed = transformer.transform(parsed)
-    print serialize(transformed,
+    print(serialize(transformed,
                     options.serializer,
-                    default_object_serializer(transformer))
+                    default_object_serializer(transformer)))
 
 def build_parser(options):
     parser_option = options.parser if len(PARSERS) > 1 else "camxes-ilmen"
