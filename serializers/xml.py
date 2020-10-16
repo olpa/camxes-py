@@ -19,7 +19,7 @@ def _json_to_xml(obj):
         return _camxes_json_list_to_xml(obj)
     elif (typ == dict) or (obj.__class__ == OrderedDict):
         return _dict_to_xml(obj)
-    elif typ in (str, unicode):
+    elif typ == str:
         return _string_to_xml(obj)
     elif typ == int:
         return _int_to_xml(obj)
@@ -53,7 +53,7 @@ def _list_to_xml(seq):
 def _dict_to_xml(dct):
     name = etree.QName(XS, "sequence")
     elem = etree.Element(name)
-    for key, val in dct.iteritems():
+    for key, val in dct.items():
         child = etree.Element(key)
         value = _json_to_xml(val)
         child.append(value)
