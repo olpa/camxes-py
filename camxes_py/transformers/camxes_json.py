@@ -1,7 +1,7 @@
 
 # pylint: disable=I0011, C0111, C0302, too-few-public-methods, no-self-use, too-many-public-methods, invalid-name, unused-argument
 
-from parsimonious_ext.expression_nodes import ALTERNATION, OPTIONAL, LITERAL, REGEX
+from ..parsimonious_ext.expression_nodes import ALTERNATION, OPTIONAL, LITERAL, REGEX
 
 from parsimonious.nodes import NodeVisitor
 

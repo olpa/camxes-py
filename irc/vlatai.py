@@ -5,9 +5,9 @@ from irc.dispatcher import BaseDispatcher
 from irc.factory_naming import Mixin as FactoryNamingMixin
 from irc.protocol import DispatchableIrcClient
 
-from structures import jbovlaste_types
-from parsers import camxes_ilmen
-from transformers import vlatai
+from camxes_py.structures import jbovlaste_types
+from camxes_py.parsers import camxes_ilmen
+from camxes_py.transformers import vlatai
 
 class Dispatcher(BaseDispatcher, object):
 

@@ -7,9 +7,9 @@ from .util import flatten
 
 from parsimonious.nodes import NodeVisitor
 
-from parsimonious_ext.expression_nodes import LITERAL, REGEX
+from ..parsimonious_ext.expression_nodes import LITERAL, REGEX
 
-from structures.gensuha \
+from ..structures.gensuha \
   import Gensuha, Cmevla, Gismu, Lujvo, Fuhivla, Cmavo, Naljbo
 
 SELMAHO_UNKNOWN = "TOLSLABU"

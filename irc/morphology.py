@@ -6,8 +6,8 @@ import json
 from irc.dispatcher import BaseDispatcher
 from irc.factory_naming import Mixin as FactoryNamingMixin
 from irc.protocol import DispatchableIrcClient
-from parsers.camxes_ilmen import Parser
-from transformers.camxes_morphology import Transformer
+from camxes_py.parsers.camxes_ilmen import Parser
+from camxes_py.transformers.camxes_morphology import Transformer
 
 ERROR_MESSAGE = ".u'u mi na pu genturfa'i"
 

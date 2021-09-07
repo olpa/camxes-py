@@ -5,8 +5,8 @@ import re
 
 from parsimonious.nodes import NodeVisitor
 
-from parsimonious_ext.expression_nodes import LITERAL, REGEX
-from transformers.camxes_morphology import is_selmaho_expression
+from ..parsimonious_ext.expression_nodes import LITERAL, REGEX
+from .camxes_morphology import is_selmaho_expression
 
 def _is_consonant(name):
     return re.match(r"^[bcdfghjklmnpqrstvxz]$", name)

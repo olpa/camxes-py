@@ -6,10 +6,10 @@ import sys
 
 from parsimonious.exceptions import ParseError
 
-from structures import jbovlaste_types
+from camxes_py.structures import jbovlaste_types
 from camxes import configure_platform
-from parsers.camxes_ilmen import Parser
-from transformers.vlatai import Visitor
+from camxes_py.parsers.camxes_ilmen import Parser
+from camxes_py.transformers.vlatai import Visitor
 
 VLATAI_RULE = "vlatai"
 

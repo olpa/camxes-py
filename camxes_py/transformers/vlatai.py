@@ -3,8 +3,8 @@
 
 from .util import flatten
 
-from transformers import camxes_morphology
-from structures.gensuha import BuLetteral, ZeiLujvo, Tosmabru, Slinkuhi
+from . import camxes_morphology
+from ..structures.gensuha import BuLetteral, ZeiLujvo, Tosmabru, Slinkuhi
 
 class Transformer(object):
 
