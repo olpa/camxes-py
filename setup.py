@@ -31,6 +31,6 @@ setuptools.setup(
     packages=packages,
     include_package_data=True,
     python_requires=">=3.6",
-    install_requires=["parsimonious==0.9.0"],
+    install_requires=["parsimonious==0.8.1"],
     scripts=["camxes.py", "vlatai.py", "vlatai-bot.py"],
 )
