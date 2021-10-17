@@ -1,0 +1,3 @@
+- merge any pull requests at
+  https://github.com/teleological/camxes-py/pulls to this repo
+- add a test case in for the minimal transformer
