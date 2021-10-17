@@ -10,10 +10,10 @@ from optparse import OptionParser
 
 import camxes_py.parsimonious_ext # expression_nodes
 
-__version__ = "v0.9.0"
+__version__ = "v0.10.0"
 
 PARSERS      = [ 'camxes-ilmen' ]
-TRANSFORMERS = [ 'camxes-json', 'camxes-morphology', 'vlatai', 'node-coverage', 'debug', 'raw' ]
+TRANSFORMERS = [ 'camxes-json', 'camxes-morphology', 'minimal', 'vlatai', 'node-coverage', 'debug', 'raw' ]
 SERIALIZERS  = [ 'json', 'json-pretty', 'json-compact', 'xml' ]
 
 IMPLEMENTATION_RECURSION_LIMIT = {
@@ -102,6 +102,9 @@ def build_transformer(transformer_option, parser):
     elif transformer_option == 'vlatai':
         from camxes_py.transformers import vlatai
         return vlatai.Transformer()
+    elif transformer_option == 'minimal':
+        from camxes_py.transformers import minimal
+        return minimal.Transformer()
     elif transformer_option == 'node-coverage':
         from camxes_py.transformers import node_coverage
         return node_coverage.Transformer(parser)

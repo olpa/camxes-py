@@ -55,6 +55,7 @@ def process_spec(input_spec, parser, json_transformer, morph_transformer):
 
     out = morph = None
     try:
+        print("text: " + text)
         parsed = parser.parse(text)
         out = transform_to_serial(parsed, json_transformer)
         morph = transform_to_serial(parsed, morph_transformer)

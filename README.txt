@@ -63,6 +63,17 @@ Partial parsing:
     >>> node.end < len("klama ku ku")
     True
 
+original-camxes-style parsing:
+
+    >>> import camxes_py
+    >>> from camxes_py.transformers import minimal
+    >>> minimal_transformer = minimal.Transformer()
+    >>> text = camxes_py.match("mi la cmen broda fu'ivla li 1 la'o gy english words gy", None, None, minimal_transformer)
+    >>> text
+    ['sentence', [['terms', [['KOhA', 'mi'], ['sumti_6', [['LA', 'la'], ['CMEVLA', 'cmen']]]]], ['bridi_tail_3', [['selbri_3', [['gismu', 'broda'], ['lujvo', "fu'ivla"]]], ['nonabs_terms', [['li_clause', [['LI', 'li'], ['PA', '1']]], ['ZOI_pre', [['ZOI', "la'o"], ['BY', 'gy'], [['zoi_word', 'english '], ['zoi_word', 'words ']], ['BY', 'gy']]]]]]]]]
+    >>>
+
+
 TESTING
 =======
 

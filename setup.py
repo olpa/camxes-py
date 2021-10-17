@@ -15,7 +15,7 @@ with open("README.txt", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name=PACKAGE_NAME,
-    version="0.9.0",
+    version="0.10.0",
     author="Robin Lee Powell",
     author_email="rlpowell@digitalkingdom.org",
     description="A pure Python implementation of the lojban 'camxes' PEG parser.",
