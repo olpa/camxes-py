@@ -15,7 +15,7 @@ with open("README.txt", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name=PACKAGE_NAME,
-    version="0.8.1",
+    version="0.9.0",
     author="Robin Lee Powell",
     author_email="rlpowell@digitalkingdom.org",
     description="A pure Python implementation of the lojban 'camxes' PEG parser.",
@@ -31,6 +31,6 @@ setuptools.setup(
     packages=packages,
     include_package_data=True,
     python_requires=">=3.6",
-    install_requires=["parsimonious==0.8.1"],
+    install_requires=["parsimonious==0.9.0"],
     scripts=["camxes.py", "vlatai.py", "vlatai-bot.py"],
 )
