@@ -79,7 +79,7 @@ class Parser(object):
         self._enhance_zoi_open(quotation_state)
         self._enhance_zoi_word(quotation_state)
         self._enhance_zoi_close(quotation_state)
-    
+
     @staticmethod
     def _rewrite_tuple(vals, i, new):
         return tuple((new if i == j else val) for j, val in enumerate(vals))

@@ -43,6 +43,26 @@ camxes-py depends on the "parsimonious" PEG parser library, and has been
 tested under CPython 2.7.4 and PyPy 2.2.1. To run the IRC bot, the "twisted"
 library is also required.
 
+LIBRARY USAGE
+=============
+
+Basic parsing:
+
+    >>> import camxes_py
+    >>> camxes_py.parse("mi klama")
+    ['text', ['text_1', ['paragraphs', ['paragraph', ['statement', ['statement_1', ['statement_2', ['statement_3', ['sentence', [['terms', ['terms_1', ['terms_2', ['abs_term', ['abs_term_1', ['sumti', ['sumti_1', ['sumti_2', ['sumti_3', ['sumti_4', ['sumti_5', ['sumti_6', ['KOhA_clause', [['KOhA', 'mi']]]]]]]]]]]]]]], ['CU']], ['bridi_tail', ['bridi_tail_1', ['bridi_tail_2', ['bridi_tail_3', ['selbri', ['selbri_1', ['selbri_2', ['selbri_3', ['selbri_4', ['selbri_5', ['selbri_6', ['tanru_unit', ['tanru_unit_1', ['tanru_unit_2', ['BRIVLA_clause', [['BRIVLA', ['gismu', 'klama']]]]]]]]]]]]]], ['tail_terms', ['VAU']]]]]]]]]]]]]]]
+
+Partial parsing:
+
+    >>> import camxes_py
+    >>> text, node = camxes_py.match("klama ku ku", None, None, None, True)
+    >>> text
+    ['text', ['text_1', ['paragraphs', ['paragraph', ['statement', ['statement_1', ['statement_2', ['statement_3', ['sentence', ['bridi_tail', ['bridi_tail_1', ['bridi_tail_2', ['bridi_tail_3', ['selbri', ['selbri_1', ['selbri_2', ['selbri_3', ['selbri_4', ['selbri_5', ['selbri_6', ['tanru_unit', ['tanru_unit_1', ['tanru_unit_2', ['BRIVLA_clause', [['BRIVLA', ['gismu', 'klama']]]]]]]]]]]]]], ['tail_terms', ['VAU']]]]]]]]]]]]]]]
+    >>> node.end
+    6
+    >>> node.end < len("klama ku ku")
+    True
+
 TESTING
 =======
 
