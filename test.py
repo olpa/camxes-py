@@ -10,8 +10,8 @@ from collections import OrderedDict
 from parsimonious.exceptions import ParseError
 
 from camxes import __version__, configure_platform
-from parsers import camxes_ilmen
-from transformers import camxes_json, camxes_morphology
+from camxes_py.parsers import camxes_ilmen
+from camxes_py.transformers import camxes_json, camxes_morphology
 
 ENV = OrderedDict([
     ("engine", "camxes-py"),

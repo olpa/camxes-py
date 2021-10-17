@@ -1,7 +1,7 @@
 
 # pylint: disable=I0011, C0111, C0326
 
-from structures.gensuha \
+from .gensuha \
   import Cmevla, Gismu, Lujvo, Fuhivla, Cmavo, ZeiLujvo, BuLetteral, Tosmabru, Slinkuhi
 
 # legacy classifications

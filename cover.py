@@ -6,8 +6,8 @@ import os
 import json
 
 from camxes import configure_platform
-from parsers import camxes_ilmen
-from transformers import node_coverage
+from camxes_py.parsers import camxes_ilmen
+from camxes_py.transformers import node_coverage
 
 TEST_DIRECTORY  = "test"
 INPUT_FILENAME  = "camxes_ilmen_js.json"

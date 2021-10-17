@@ -5,7 +5,7 @@ import os
 
 from parsimonious.grammar import Grammar
 
-from parsimonious_ext.expressions import Predicate, LookaheadPredicate
+from ..parsimonious_ext.expressions import Predicate, LookaheadPredicate
 
 GRAMMAR_FILENAME = "camxes_ilmen.peg"
 

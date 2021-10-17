@@ -8,7 +8,7 @@ import json
 
 from optparse import OptionParser
 
-import parsimonious_ext # expression_nodes
+import camxes_py.parsimonious_ext # expression_nodes
 
 __version__ = "v0.8.1"
 
@@ -87,29 +87,29 @@ def run(text, options):
 def build_parser(options):
     parser_option = options.parser if len(PARSERS) > 1 else "camxes-ilmen"
     if parser_option == 'camxes-ilmen':
-        from parsers import camxes_ilmen
+        from camxes_py.parsers import camxes_ilmen
         return camxes_ilmen.Parser(options.rule)
     else:
         bad_parser()
 
 def build_transformer(transformer_option, parser):
     if transformer_option == 'camxes-json':
-        from transformers import camxes_json
+        from camxes_py.transformers import camxes_json
         return camxes_json.Transformer()
     elif transformer_option == 'camxes-morphology':
-        from transformers import camxes_morphology
+        from camxes_py.transformers import camxes_morphology
         return camxes_morphology.Transformer()
     elif transformer_option == 'vlatai':
-        from transformers import vlatai
+        from camxes_py.transformers import vlatai
         return vlatai.Transformer()
     elif transformer_option == 'node-coverage':
-        from transformers import node_coverage
+        from camxes_py.transformers import node_coverage
         return node_coverage.Transformer(parser)
     elif transformer_option == 'debug':
-        from transformers import debug
+        from camxes_py.transformers import debug
         return debug.Transformer()
     elif transformer_option == 'raw':
-        from transformers import raw
+        from camxes_py.transformers import raw
         return raw.Transformer()
     else:
         bad_transformer()
@@ -133,7 +133,7 @@ def serialize(transformed, fmt, default_serializer):
                           indent=4,
                           default=default_serializer)
     elif fmt == 'xml':
-        from serializers import xml
+        from camxes_py.serializers import xml
         return xml.dumps(transformed)
     else:
         bad_serializer()
