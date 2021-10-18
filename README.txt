@@ -73,6 +73,19 @@ original-camxes-style parsing:
     ['sentence', [['terms', [['KOhA', 'mi'], ['sumti_6', [['LA', 'la'], ['CMEVLA', 'cmen']]]]], ['bridi_tail_3', [['selbri_3', [['gismu', 'broda'], ['lujvo', "fu'ivla"]]], ['nonabs_terms', [['li_clause', [['LI', 'li'], ['PA', '1']]], ['ZOI_pre', [['ZOI', "la'o"], ['BY', 'gy'], [['zoi_word', 'english '], ['zoi_word', 'words ']], ['BY', 'gy']]]]]]]]]
     >>>
 
+Parsing that isn't incredibly slow; the "parser =" line takes a bunch of time, but the subsequent .parse and .match calls will be fast if you pass the parser in:
+
+    >>> import camxes_py
+    >>> from camxes_py.parsers import camxes_ilmen
+    >>> from camxes_py.transformers import minimal
+    >>> parser = camxes_ilmen.Parser(None)
+    >>> minimal_transformer = minimal.Transformer()
+    >>> text, node = camxes_py.match("mi klama le zarci", parser, None, minimal_transformer, True)
+    >>> text
+    ['sentence', [['KOhA', 'mi'], ['bridi_tail_3', [['gismu', 'klama'], ['sumti_6', [['LE', 'le'], ['gismu', 'zarci']]]]]]]
+    >>> text, node = camxes_py.match("mi la cmen broda fu'ivla li 1 la'o gy english words gy", parser, None, minimal_transformer, True)
+    >>> text
+    ['sentence', [['terms', [['KOhA', 'mi'], ['sumti_6', [['LA', 'la'], ['CMEVLA', 'cmen']]]]], ['bridi_tail_3', [['selbri_3', [['gismu', 'broda'], ['lujvo', "fu'ivla"]]], ['nonabs_terms', [['li_clause', [['LI', 'li'], ['PA', '1']]], ['ZOI_pre', [['ZOI', "la'o"], ['BY', 'gy'], [['zoi_word', 'english '], ['zoi_word', 'words ']], ['BY', 'gy']]]]]]]]]
 
 TESTING
 =======
